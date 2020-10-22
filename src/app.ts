@@ -1,10 +1,26 @@
-import express from 'express';
+import 'dotenv/config';
+import express, { Express } from 'express';
+
 import routes from './routes';
-require('dotenv/config');
+import './database';
 
-const app = express();
-const port = process.env.PORT || '3000';
+class App {
+  public server: Express;
 
-app.use(routes);
+  constructor() {
+    this.server = express();
 
-app.listen(port);
+    this.middlewares();
+    this.routes();
+  }
+
+  middlewares() {
+    this.server.use(express.json());
+  }
+
+  routes() {
+    this.server.use(routes);
+  }
+}
+
+export default new App().server;

@@ -1,19 +1,12 @@
 import {Router} from 'express';
-import connection from './database/connection';
+
+import UserController from "./app/controllers/UserController";
 
 const routes = Router();
 
-routes.get('/', async (req, res) => {
-    
-    try{
-        await connection.authenticate();
-        console.log('Connection Ok');
-    }catch(error){
-        console.log('Unable to Connect');
-        console.log(error);
-    }
-    
-    res.send('Hello World');
-});
+// Users
+routes.post('/users', UserController.store);
+routes.get('/users', UserController.index);
+routes.delete('/users/:id', UserController.delete);
 
 export default routes;
