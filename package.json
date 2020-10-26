@@ -32,6 +32,7 @@
     "dotenv": "^8.2.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import-helpers": "^1.1.0",
     "express": "^4.17.1",
     "pg": "^8.4.1",
     "pg-hstore": "^2.3.3",
