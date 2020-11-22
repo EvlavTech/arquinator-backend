@@ -30,8 +30,8 @@
               "groups": [["/prop-types/", "module"], "/^@database/", "/^@models/", 
                           "/^~/controllers/", "/^@controllers/"]
             }
-          ]
-      
+        ],
+        "implicit-arrow-linebreak": "off"
     },
     "settings": {
         "import/resolver": {
