@@ -49,7 +49,7 @@ module.exports = {
             },
             responsible_id: {
                 type: Sequelize.INTEGER,
-                allowNull: false,
+                allowNull: true,
                 references: {
                     model: 'users',
                     key: 'id',

@@ -3,6 +3,10 @@ import bcryptjs from 'bcryptjs';
 
 import database from '@database/index';
 
+import Task from './Task';
+import Permission from './Permission';
+import TaskTemplate from './templates/TaskTemplate';
+
 class User extends Model {
     public name!: string;
 
@@ -28,6 +32,10 @@ User.init(
         sequelize: database.connection,
     },
 );
+
+User.hasMany(Task);
+User.hasMany(TaskTemplate);
+User.hasMany(Permission);
 
 User.addHook('beforeSave', async (user:User): Promise<void> => {
     if (user.password) {

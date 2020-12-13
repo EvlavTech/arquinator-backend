@@ -3,6 +3,7 @@ import Sequelize, { Model } from 'sequelize';
 import database from '@database/index';
 
 import Project from './Project';
+import ProjectTemplate from './templates/ProjectTemplate';
 
 class Client extends Model {
     public name!: string;
@@ -21,5 +22,6 @@ Client.init(
 );
 
 Client.hasMany(Project);
+Client.hasMany(ProjectTemplate);
 
 export default Client;

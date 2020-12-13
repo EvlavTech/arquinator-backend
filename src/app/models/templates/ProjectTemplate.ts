@@ -2,6 +2,8 @@ import Sequelize, { Model } from 'sequelize';
 
 import database from '@database/index';
 
+import TaskTemplate from './TaskTemplate';
+
 class ProjectTemplate extends Model {
     public name!: string;
 
@@ -20,5 +22,7 @@ ProjectTemplate.init(
         sequelize: database.connection,
     },
 );
+
+ProjectTemplate.hasMany(TaskTemplate);
 
 export default ProjectTemplate;
