@@ -2,8 +2,6 @@ import Sequelize, { Model } from 'sequelize';
 
 import database from '@database/index';
 
-import User from './User';
-
 class Task extends Model {
     public start_date!: string;
 
@@ -40,5 +38,7 @@ Task.init(
         sequelize: database.connection,
     },
 );
+
+Task.belongsTo(Task, { foreignKey: 'task_parent_id', as: 'task_parent' });
 
 export default Task;

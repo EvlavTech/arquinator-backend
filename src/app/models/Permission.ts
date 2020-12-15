@@ -2,8 +2,6 @@ import Sequelize, { Model } from 'sequelize';
 
 import database from '@database/index';
 
-import User from './User';
-
 class Permission extends Model {
     public user_id!: number;
 
