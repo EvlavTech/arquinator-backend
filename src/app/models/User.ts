@@ -8,6 +8,8 @@ import Permission from './Permission';
 import TaskTemplate from './templates/TaskTemplate';
 
 class User extends Model {
+    public id!: number;
+
     public name!: string;
 
     public email!: string;
@@ -15,6 +17,8 @@ class User extends Model {
     public password!: string;
 
     public password_hash!: string;
+
+    public company_id!: number;
 
     checkPassword(password: string) {
         return bcryptjs.compare(password, this.password_hash);
@@ -27,6 +31,7 @@ User.init(
         email: Sequelize.STRING,
         password: Sequelize.VIRTUAL,
         password_hash: Sequelize.STRING,
+        company_id: Sequelize.NUMBER,
     },
     {
         sequelize: database.connection,
