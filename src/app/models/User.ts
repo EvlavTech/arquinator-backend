@@ -33,7 +33,8 @@ User.init(
     },
 );
 
-User.hasMany(Task);
+User.hasMany(Task, { foreignKey: 'owner_id', as: 'tasks_created' });
+User.hasMany(Task, { foreignKey: 'responsible_id', as: 'tasks_responsibled' });
 User.hasMany(TaskTemplate);
 User.hasMany(Permission);
 

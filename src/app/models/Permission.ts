@@ -20,6 +20,4 @@ Permission.init(
     },
 );
 
-Permission.hasMany(User);
-
 export default Permission;

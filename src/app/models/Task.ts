@@ -41,7 +41,4 @@ Task.init(
     },
 );
 
-Task.belongsTo(Task, { foreignKey: 'task_parent_id', as: 'task_parent' });
-Task.belongsTo(User, { foreignKey: 'responsible_id', as: 'responsible' });
-
 export default Task;
