@@ -47,6 +47,7 @@ Project.init(
     },
     {
         sequelize: database.connection,
+        tableName: 'Projects',
     },
 );
 

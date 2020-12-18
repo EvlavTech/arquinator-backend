@@ -35,6 +35,7 @@ ProjectTemplate.init(
     },
     {
         sequelize: database.connection,
+        tableName: 'ProjectsTemplates',
     },
 );
 

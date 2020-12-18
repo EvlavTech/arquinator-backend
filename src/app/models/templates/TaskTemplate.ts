@@ -45,6 +45,7 @@ TaskTemplate.init(
     },
     {
         sequelize: database.connection,
+        tableName: 'TasksTemplate',
     },
 );
 

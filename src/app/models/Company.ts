@@ -18,6 +18,7 @@ Company.init(
     },
     {
         sequelize: database.connection,
+        tableName: 'Companies',
     },
 );
 

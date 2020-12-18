@@ -54,6 +54,7 @@ User.init(
     },
     {
         sequelize: database.connection,
+        tableName: 'Users',
     },
 );
 

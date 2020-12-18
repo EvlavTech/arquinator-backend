@@ -27,6 +27,7 @@ Permission.init(
     },
     {
         sequelize: database.connection,
+        tableName: 'Permissions',
     },
 );
 

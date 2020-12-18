@@ -87,6 +87,7 @@ Task.init(
     },
     {
         sequelize: database.connection,
+        tableName: 'Tasks',
     },
 );
 

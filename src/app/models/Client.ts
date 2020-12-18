@@ -30,6 +30,7 @@ Client.init(
     },
     {
         sequelize: database.connection,
+        tableName: 'Clients',
     },
 );
 
