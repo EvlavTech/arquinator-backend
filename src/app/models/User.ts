@@ -38,7 +38,6 @@ User.init(
         },
         password: Sequelize.VIRTUAL,
         password_hash: {
-            allowNull: false,
             type: Sequelize.STRING,
         },
         company_id: {
