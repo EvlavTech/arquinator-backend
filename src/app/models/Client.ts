@@ -13,15 +13,27 @@ class Client extends Model {
 
 Client.init(
     {
-        name: Sequelize.STRING,
-        company_id: Sequelize.INTEGER,
+        name: {
+            allowNull: false,
+            type: Sequelize.STRING,
+        },
+        company_id: {
+            type: Sequelize.INTEGER,
+            allowNull: false,
+            references: {
+                model: 'Companies',
+                key: 'id',
+            },
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
+        },
     },
     {
         sequelize: database.connection,
     },
 );
 
-Client.hasMany(Project);
-Client.hasMany(ProjectTemplate);
+Client.hasMany(Project, { foreignKey: 'owner_id', as: 'projects' });
+Client.hasMany(ProjectTemplate, { foreignKey: 'owner_id', as: 'projects_templates' });
 
 export default Client;

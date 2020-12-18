@@ -10,8 +10,20 @@ class Permission extends Model {
 
 Permission.init(
     {
-        user_id: Sequelize.INTEGER,
-        permission: Sequelize.STRING,
+        user_id: {
+            type: Sequelize.INTEGER,
+            allowNull: false,
+            references: {
+                model: 'Users',
+                key: 'id',
+            },
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
+        },
+        permission: {
+            allowNull: false,
+            type: Sequelize.STRING,
+        },
     },
     {
         sequelize: database.connection,

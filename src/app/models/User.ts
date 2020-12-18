@@ -27,21 +27,40 @@ class User extends Model {
 
 User.init(
     {
-        name: Sequelize.STRING,
-        email: Sequelize.STRING,
+        name: {
+            type: Sequelize.STRING,
+            allowNull: false,
+        },
+        email: {
+            allowNull: false,
+            unique: true,
+            type: Sequelize.STRING,
+        },
         password: Sequelize.VIRTUAL,
-        password_hash: Sequelize.STRING,
-        company_id: Sequelize.NUMBER,
+        password_hash: {
+            allowNull: false,
+            type: Sequelize.STRING,
+        },
+        company_id: {
+            type: Sequelize.INTEGER,
+            allowNull: false,
+            references: {
+                model: 'Companies',
+                key: 'id',
+            },
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
+        },
     },
     {
         sequelize: database.connection,
     },
 );
 
-User.hasMany(Task, { foreignKey: 'owner_id', as: 'tasks_created' });
-User.hasMany(Task, { foreignKey: 'responsible_id', as: 'tasks_responsibled' });
-User.hasMany(TaskTemplate);
-User.hasMany(Permission);
+User.hasMany(Task, { foreignKey: 'owner_id', as: 'task_creator' });
+User.hasMany(Task, { foreignKey: 'responsible_id', as: 'responsible_task' });
+User.hasMany(TaskTemplate, { foreignKey: 'owner_id', as: 'task_template_creator' });
+User.hasMany(Permission, { foreignKey: 'user_id', as: 'permission' });
 
 User.addHook('beforeSave', async (user:User): Promise<void> => {
     if (user.password) {

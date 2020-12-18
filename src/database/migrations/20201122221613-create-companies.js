@@ -1,6 +1,6 @@
 module.exports = {
     up: async (queryInterface, Sequelize) => {
-        const CompaniesTable = queryInterface.createTable('companies', {
+        const CompaniesTable = queryInterface.createTable('Companies', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
@@ -24,5 +24,5 @@ module.exports = {
         return CompaniesTable;
     },
 
-    down: async (queryInterface) => queryInterface.dropTable('companies'),
+    down: async (queryInterface) => queryInterface.dropTable('Companies'),
 };

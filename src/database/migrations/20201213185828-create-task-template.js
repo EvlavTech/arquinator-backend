@@ -1,6 +1,6 @@
 module.exports = {
     up: async (queryInterface, Sequelize) => {
-        const TaskTemplateTable = queryInterface.createTable('taskTemplate', {
+        const TaskTemplateTable = queryInterface.createTable('TasksTemplate', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
@@ -19,17 +19,21 @@ module.exports = {
                 type: Sequelize.INTEGER,
                 allowNull: false,
                 references: {
-                    model: 'projectTemplate',
+                    model: 'ProjectsTemplates',
                     key: 'id',
                 },
+                onDelete: 'CASCADE',
+                onUpdate: 'CASCADE',
             },
             owner_id: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
                 references: {
-                    model: 'users',
+                    model: 'Users',
                     key: 'id',
                 },
+                onDelete: 'CASCADE',
+                onUpdate: 'CASCADE',
             },
             created_at: {
                 type: Sequelize.DATE,
@@ -44,5 +48,5 @@ module.exports = {
         return TaskTemplateTable;
     },
 
-    down: async (queryInterface) => queryInterface.dropTable('taskTemplate'),
+    down: async (queryInterface) => queryInterface.dropTable('TasksTemplate'),
 };

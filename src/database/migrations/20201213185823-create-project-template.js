@@ -1,7 +1,7 @@
 module.exports = {
     up: async (queryInterface, Sequelize) => {
         const ProjectTemplateTable = queryInterface.createTable(
-            'projectTemplate',
+            'ProjectsTemplates',
             {
                 id: {
                     allowNull: false,
@@ -17,13 +17,15 @@ module.exports = {
                     allowNull: false,
                     type: Sequelize.STRING,
                 },
-                client_id: {
+                owner_id: {
                     type: Sequelize.INTEGER,
                     allowNull: false,
                     references: {
-                        model: 'clients',
+                        model: 'Clients',
                         key: 'id',
                     },
+                    onDelete: 'CASCADE',
+                    onUpdate: 'CASCADE',
                 },
                 created_at: {
                     type: Sequelize.DATE,
@@ -39,5 +41,6 @@ module.exports = {
         return ProjectTemplateTable;
     },
 
-    down: async (queryInterface) => queryInterface.dropTable('projectTemplate'),
+    down: async (queryInterface) =>
+        queryInterface.dropTable('ProjectsTemplates'),
 };

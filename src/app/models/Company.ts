@@ -11,14 +11,17 @@ class Company extends Model {
 
 Company.init(
     {
-        name: Sequelize.STRING,
+        name: {
+            allowNull: false,
+            type: Sequelize.STRING,
+        },
     },
     {
         sequelize: database.connection,
     },
 );
 
-Company.hasMany(Client);
-Company.hasMany(User);
+Company.hasMany(Client, { foreignKey: 'company_id', as: 'clients' });
+Company.hasMany(User, { foreignKey: 'company_id', as: 'users' });
 
 export default Company;

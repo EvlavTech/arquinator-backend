@@ -9,7 +9,7 @@ class Project extends Model {
 
     public description!: string;
 
-    public client_id!: number;
+    public owner_id!: number;
 
     public start_date!: Date;
 
@@ -18,17 +18,38 @@ class Project extends Model {
 
 Project.init(
     {
-        name: Sequelize.STRING,
-        description: Sequelize.STRING,
-        client_id: Sequelize.INTEGER,
-        start_date: Sequelize.DATE,
-        end_date: Sequelize.DATE,
+        name: {
+            allowNull: false,
+            type: Sequelize.STRING,
+        },
+        description: {
+            allowNull: false,
+            type: Sequelize.STRING,
+        },
+        owner_id: {
+            type: Sequelize.INTEGER,
+            allowNull: false,
+            references: {
+                model: 'Clients',
+                key: 'id',
+            },
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
+        },
+        start_date: {
+            allowNull: false,
+            type: Sequelize.DATE,
+        },
+        end_date: {
+            allowNull: false,
+            type: Sequelize.DATE,
+        },
     },
     {
         sequelize: database.connection,
     },
 );
 
-Project.hasMany(Task);
+Project.hasMany(Task, { foreignKey: 'projet_id', as: 'tasks' });
 
 export default Project;
