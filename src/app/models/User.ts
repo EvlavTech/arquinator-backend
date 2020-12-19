@@ -7,6 +7,20 @@ import Task from './Task';
 import Permission from './Permission';
 import TaskTemplate from './templates/TaskTemplate';
 
+export interface IUser {
+    id: number;
+
+    name: string;
+
+    email: string;
+
+    password: string;
+
+    password_hash: string;
+
+    company_id: number;
+}
+
 class User extends Model {
     public id!: number;
 
