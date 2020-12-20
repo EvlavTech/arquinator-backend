@@ -4,6 +4,14 @@ import database from '@database/index';
 
 import Task from './Task';
 
+export interface IProject {
+    name: string;
+    description: string;
+    owner_id: number;
+    start_date: Date;
+    end_date: Date;
+}
+
 class Project extends Model {
     public name!: string;
 
