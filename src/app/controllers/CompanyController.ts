@@ -1,25 +1,9 @@
-import { Request, Response } from 'express';
+import Company, { ICompany } from '@models/Company';
 
-import Company from '@models/Company';
+import CompanyRepository from '../repository/CompanyRepository';
+import BaseController from './BaseController';
 
-class CompanyController {
-    async store(req: Request, res: Response): Promise<Response<Company>> {
-        const company = await Company.create(req.body);
-
-        return res.json(company);
-    }
-
-    async index(req: Request, res: Response): Promise<Response<Company[]>> {
-        const companies = await Company.findAll();
-
-        return res.json(companies);
-    }
-
-    async delete(req: Request, res: Response): Promise<Response<Company>> {
-        const company = await Company.destroy({ where: { id: req.params.id } });
-
-        return res.json(company);
-    }
+class CompanyController extends BaseController<Company, ICompany> {
 }
 
-export default new CompanyController();
+export default new CompanyController(CompanyRepository);

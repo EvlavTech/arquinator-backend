@@ -1,25 +1,9 @@
-import { Request, Response } from 'express';
+import Client, { IClient } from '@models/Client';
 
-import Client from '@models/Client';
+import ClientRepository from '../repository/ClientRepository';
+import BaseController from './BaseController';
 
-class ClientController {
-    async store(req: Request, res: Response): Promise<Response<Client>> {
-        const client = await Client.create(req.body);
-
-        return res.json(client);
-    }
-
-    async index(req: Request, res: Response): Promise<Response<Client[]>> {
-        const clients = await Client.findAll();
-
-        return res.json(clients);
-    }
-
-    async delete(req: Request, res: Response): Promise<Response<Client>> {
-        const client = await Client.destroy({ where: { id: req.params.id } });
-
-        return res.json(client);
-    }
+class ClientController extends BaseController<Client, IClient> {
 }
 
-export default new ClientController();
+export default new ClientController(ClientRepository);

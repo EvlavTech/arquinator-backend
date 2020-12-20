@@ -5,6 +5,12 @@ import database from '@database/index';
 import Project from './Project';
 import ProjectTemplate from './templates/ProjectTemplate';
 
+export interface IClient {
+    name: string;
+
+    company_id: number;
+}
+
 class Client extends Model {
     public name!: string;
 
