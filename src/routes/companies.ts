@@ -1,6 +1,6 @@
 import { Express } from 'express';
 
-import CompanyController from '../app/controllers/CompanyController';
+import CompanyController from '@controllers/CompanyController';
 
 export default function routes(app: Express) {
     app.post('/companies', (req, res) => CompanyController.store(req, res));

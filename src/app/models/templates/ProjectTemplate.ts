@@ -4,6 +4,12 @@ import database from '@database/index';
 
 import TaskTemplate from './TaskTemplate';
 
+export interface IProjectTemplate {
+    name: string;
+    description: string;
+    owner_id: number;
+}
+
 class ProjectTemplate extends Model {
     public name!: string;
 

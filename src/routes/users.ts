@@ -1,6 +1,6 @@
 import { Express } from 'express';
 
-import UserController from '../app/controllers/UserController';
+import UserController from '@controllers/UserController';
 
 export default function routes(app: Express) {
     app.post('/users', (req, res) => UserController.store(req, res));

@@ -16,6 +16,9 @@
     "paths": {
       "@controllers/*": ["./src/app/controllers/*"],
       "@models/*": ["./src/app/models/*"],
+      "@dto/*": ["./src/app/dto/*"],
+      "@repositories/*": ["./src/app/repository/*"],
+      "@middlewares/*": ["./src/app/middlewares/*"],
       "@config/*": ["./src/config/*"],
       "@database/*": ["./src/database/*"],
     }

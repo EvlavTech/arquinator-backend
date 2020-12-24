@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
+import UserRepository from '@repositories/UserRepository';
 
 import User, { IUser } from '@models/User';
 
-import UserRepository from '../repository/UserRepository';
 import BaseController from './BaseController';
 
 class UserController extends BaseController<User, IUser> {
