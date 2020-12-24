@@ -1,6 +1,6 @@
 module.exports = {
     up: async (queryInterface, Sequelize) => {
-        const UsersTable = queryInterface.createTable('Users', {
+        const ClientsTable = queryInterface.createTable('Clients', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
@@ -11,14 +11,15 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.STRING,
             },
-            email: {
+            company_id: {
+                type: Sequelize.INTEGER,
                 allowNull: false,
-                unique: true,
-                type: Sequelize.STRING,
-            },
-            password_hash: {
-                allowNull: false,
-                type: Sequelize.STRING,
+                references: {
+                    model: 'Companies',
+                    key: 'id',
+                },
+                onDelete: 'CASCADE',
+                onUpdate: 'CASCADE',
             },
             created_at: {
                 type: Sequelize.DATE,
@@ -30,8 +31,8 @@ module.exports = {
             },
         });
 
-        return UsersTable;
+        return ClientsTable;
     },
 
-    down: async (queryInterface) => queryInterface.dropTable('Users'),
+    down: async (queryInterface) => queryInterface.dropTable('Clients'),
 };
