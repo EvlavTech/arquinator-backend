@@ -7,25 +7,21 @@ import { IProjectTemplate } from '@models/templates/ProjectTemplate';
 
 import BaseController from './BaseController';
 
-interface IProjectBody extends IProject {
-    project_template_id: number
-}
-
 class ProjectController extends BaseController<Project, IProject> {
     async store(req: Request, res: Response) {
-        const projectBody: IProjectBody = req.body;
-        if (!projectBody.project_template_id) {
+        const projectBody: IProject = req.body;
+        if (!projectBody.template_id) {
             const object = await this.repository.create(req.body);
 
             return res.status(201).json(object);
         }
 
         const projectTemplate = await ProjectTemplateRepository.findById(
-            projectBody.project_template_id,
+            projectBody.template_id,
         );
         if (!projectTemplate) {
             return res.status(404).json({
-                message: `ProjectTemplate with ID = ${projectBody.project_template_id} not found!`,
+                message: `ProjectTemplate with ID = ${projectBody.template_id} not found!`,
             });
         }
         const projectCreated = await ProjectRepository.create(

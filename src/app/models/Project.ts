@@ -10,6 +10,7 @@ export interface IProject {
     owner_id: number;
     start_date: Date;
     end_date: Date;
+    template_id: number;
 }
 
 class Project extends Model {
@@ -22,6 +23,8 @@ class Project extends Model {
     public start_date!: Date;
 
     public end_date!: Date;
+
+    public template_id!: number;
 }
 
 Project.init(
@@ -51,6 +54,16 @@ Project.init(
         end_date: {
             allowNull: false,
             type: Sequelize.DATE,
+        },
+        template_id: {
+            type: Sequelize.INTEGER,
+            allowNull: true,
+            references: {
+                model: 'ProjectsTemplates',
+                key: 'id',
+            },
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
         },
     },
     {

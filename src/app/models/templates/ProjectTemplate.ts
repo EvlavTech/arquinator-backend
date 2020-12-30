@@ -2,6 +2,8 @@ import Sequelize, { Model } from 'sequelize';
 
 import database from '@database/index';
 
+import Project from '@models/Project';
+
 import TaskTemplate from './TaskTemplate';
 
 export interface IProjectTemplate {
@@ -46,5 +48,6 @@ ProjectTemplate.init(
 );
 
 ProjectTemplate.hasMany(TaskTemplate, { foreignKey: 'project_template_id', as: 'tasks' });
+ProjectTemplate.hasMany(Project, { foreignKey: 'template_id', as: 'template' });
 
 export default ProjectTemplate;

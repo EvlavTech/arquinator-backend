@@ -1,17 +1,17 @@
 import * as yup from 'yup';
 
 export const ProjectCreate = yup.object().shape({
-    project_template_id: yup.number(),
-    name: yup.string().when(['project_template_id'], {
-        is: (project_template_id: number) => !project_template_id,
+    template_id: yup.number(),
+    name: yup.string().when(['template_id'], {
+        is: (template_id: number) => !template_id,
         then: yup.string().required(),
     }),
-    description: yup.string().when(['project_template_id'], {
-        is: (project_template_id: number) => !project_template_id,
+    description: yup.string().when(['template_id'], {
+        is: (template_id: number) => !template_id,
         then: yup.string().required(),
     }),
-    owner_id: yup.number().when(['project_template_id'], {
-        is: (project_template_id: number) => !project_template_id,
+    owner_id: yup.number().when(['template_id'], {
+        is: (template_id: number) => !template_id,
         then: yup.number().required(),
     }),
     start_date: yup.date().required(),
