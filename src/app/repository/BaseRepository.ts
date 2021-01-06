@@ -28,7 +28,7 @@ class BaseRepository<T extends Sequelize.Model<T> & K, K> {
     }
 
     public async update(id: number, attributes: Partial<K>): Promise<[number, any[]]> {
-        const objectUpdated = this.model.update(attributes, { where: { id } });
+        const objectUpdated = await this.model.update(attributes, { where: { id } });
         return objectUpdated;
     }
 

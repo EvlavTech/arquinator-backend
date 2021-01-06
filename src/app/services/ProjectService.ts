@@ -33,6 +33,8 @@ class ProjectService extends BaseService<Project, IProject> {
         project.name = projectTemplate.name;
         project.description = projectTemplate.description;
         project.owner_id = projectTemplate.owner_id;
+        project.start_date = projectTemplate.start_date;
+        project.end_date = projectTemplate.end_date;
         return project;
     }
 }

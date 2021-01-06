@@ -5,6 +5,7 @@ import database from '@database/index';
 import Task from './Task';
 
 export interface IProject {
+    id: number;
     name: string;
     description: string;
     owner_id: number;
@@ -14,6 +15,8 @@ export interface IProject {
 }
 
 class Project extends Model {
+    public id!: number;
+
     public name!: string;
 
     public description!: string;
