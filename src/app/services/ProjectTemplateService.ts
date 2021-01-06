@@ -17,7 +17,9 @@ class ProjectTemplateService extends BaseService<ProjectTemplate, IProjectTempla
             end_date: projectTemplateBefore?.end_date,
         });
         await this.repository.update(id, bodyUpdated);
-        const projectsUpdate = projects.map((project) => ProjectRepository.update(project.id, bodyUpdated));
+        const projectsUpdate = projects.map((project) => ProjectRepository.update(
+            project.id, bodyUpdated,
+        ));
 
         Promise.all(projectsUpdate).then((values) => {
             console.log('Projects updateds: ', values);
