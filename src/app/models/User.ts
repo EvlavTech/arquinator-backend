@@ -14,10 +14,6 @@ export interface IUser {
 
     email: string;
 
-    password: string;
-
-    password_hash: string;
-
     company_id: number;
 }
 
