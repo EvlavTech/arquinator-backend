@@ -5,6 +5,7 @@ import Project, { IProject } from '@models/Project';
 import { IProjectTemplate } from '@models/templates/ProjectTemplate';
 
 import BaseService from './BaseService';
+import BaseError from '../errors/BaseError';
 
 class ProjectService extends BaseService<Project, IProject> {
     async create(body: any) {
@@ -19,7 +20,7 @@ class ProjectService extends BaseService<Project, IProject> {
             projectBody.template_id,
         );
         if (!projectTemplate) {
-            return new Error(`ProjectTemplate with ID = ${projectBody.template_id} not found!`);
+            return new BaseError(`ProjectTemplate with ID = ${projectBody.template_id} not found!`, 404);
         }
         const projectCreated = await ProjectRepository.create(
             this.makeProject(projectBody, projectTemplate),

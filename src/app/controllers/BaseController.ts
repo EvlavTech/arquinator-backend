@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import Sequelize from 'sequelize';
 
+import BaseError from '../errors/BaseError';
 import BaseService from '../services/BaseService';
 
 class BaseController<T extends Sequelize.Model<T> & K, K> {
@@ -15,7 +16,6 @@ class BaseController<T extends Sequelize.Model<T> & K, K> {
             const object = await this.service.create(req.body);
             return res.status(201).json(object);
         } catch (error) {
-            // TODO: Error vai informar o status code.
             return res.status(500).json({ message: error.message });
         }
     }
@@ -25,7 +25,6 @@ class BaseController<T extends Sequelize.Model<T> & K, K> {
             const objects = await this.service.findAll();
             return res.status(200).json(objects);
         } catch (error) {
-            // TODO: Error vai informar o status code.
             return res.status(500).json({ message: error.message });
         }
     }
@@ -36,7 +35,7 @@ class BaseController<T extends Sequelize.Model<T> & K, K> {
             return res.status(200).json(object);
         } catch (error) {
             // TODO: Error vai informar o status code.
-            return res.status(404).json({ message: error.message });
+            return res.status(error.statusCode).json({ message: error.message });
         }
     }
 
@@ -46,7 +45,7 @@ class BaseController<T extends Sequelize.Model<T> & K, K> {
             return res.status(200).json(object);
         } catch (error) {
             // TODO: Error vai informar o status code.
-            return res.status(404).json({ message: error.message });
+            return res.status(error.statusCode).json({ message: error.message });
         }
     }
 
@@ -57,7 +56,7 @@ class BaseController<T extends Sequelize.Model<T> & K, K> {
             return res.status(200).json(object);
         } catch (error) {
             // TODO: Error vai informar o status code.
-            return res.status(404).json({ message: error.message });
+            return res.status(error.statusCode).json({ message: error.message });
         }
     }
 }

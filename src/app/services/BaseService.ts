@@ -1,6 +1,8 @@
 import Sequelize from 'sequelize';
 import BaseRepository from '@repositories/BaseRepository';
 
+import BaseError from '../errors/BaseError';
+
 class BaseService<T extends Sequelize.Model<T> & K, K> {
     public repository: BaseRepository<T, K>;
 
@@ -8,7 +10,7 @@ class BaseService<T extends Sequelize.Model<T> & K, K> {
         this.repository = repository;
     }
 
-    async create(body: any): Promise<K | Error> {
+    async create(body: any): Promise<K | BaseError> {
         const object = await this.repository.create(body);
         return object;
     }
@@ -23,19 +25,19 @@ class BaseService<T extends Sequelize.Model<T> & K, K> {
         return object;
     }
 
-    async delete(id: number): Promise<K | Error> {
+    async delete(id: number): Promise<K | BaseError> {
         const object = await this.repository.delete(id);
         if (!object) {
-            throw new Error(`Object with ID = ${id} not found!`);
+            throw new BaseError(`Object with ID = ${id} not found!`, 404);
         }
 
         return object;
     }
 
-    async update(id: number, bodyUpdated: any): Promise<K | Error | null> {
+    async update(id: number, bodyUpdated: any): Promise<K | BaseError | null> {
         const hasUpdated = await this.repository.update(id, bodyUpdated);
         if (!hasUpdated[0]) {
-            throw new Error('Id not found!');
+            throw new BaseError('Id not found!', 404);
         }
 
         const object = await this.repository.findById(id);
