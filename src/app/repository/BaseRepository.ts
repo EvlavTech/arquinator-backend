@@ -17,13 +17,18 @@ class BaseRepository<T extends Sequelize.Model<T> & K, K> {
         return objects;
     }
 
+    async findByFilters(where: any = {}): Promise<K[]> {
+        const objects = this.model.findAll<T>({ where });
+        return objects;
+    }
+
     async findById(id: number): Promise<K | null> {
         const object = await this.model.findByPk<T>(id);
         return object;
     }
 
     public async update(id: number, attributes: Partial<K>): Promise<[number, any[]]> {
-        const objectUpdated = this.model.update(attributes, { where: { id } });
+        const objectUpdated = await this.model.update(attributes, { where: { id } });
         return objectUpdated;
     }
 

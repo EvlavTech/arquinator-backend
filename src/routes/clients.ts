@@ -1,6 +1,6 @@
 import { Express } from 'express';
 
-import ClientController from '../app/controllers/ClientController';
+import ClientController from '@controllers/ClientController';
 
 export default function routes(app: Express) {
     app.post('/clients', (req, res) => ClientController.store(req, res));

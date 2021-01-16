@@ -1,9 +1,9 @@
 import Client, { IClient } from '@models/Client';
 
-import ClientRepository from '../repository/ClientRepository';
 import BaseController from './BaseController';
+import ClientService from '../services/ClientService';
 
 class ClientController extends BaseController<Client, IClient> {
 }
 
-export default new ClientController(ClientRepository);
+export default new ClientController(ClientService);

@@ -1,9 +1,9 @@
 import Company, { ICompany } from '@models/Company';
 
-import CompanyRepository from '../repository/CompanyRepository';
 import BaseController from './BaseController';
+import CompanyService from '../services/CompanyService';
 
 class CompanyController extends BaseController<Company, ICompany> {
 }
 
-export default new CompanyController(CompanyRepository);
+export default new CompanyController(CompanyService);

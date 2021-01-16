@@ -5,14 +5,18 @@ import database from '@database/index';
 import Task from './Task';
 
 export interface IProject {
+    id: number;
     name: string;
     description: string;
     owner_id: number;
     start_date: Date;
     end_date: Date;
+    template_id: number;
 }
 
 class Project extends Model {
+    public id!: number;
+
     public name!: string;
 
     public description!: string;
@@ -22,6 +26,8 @@ class Project extends Model {
     public start_date!: Date;
 
     public end_date!: Date;
+
+    public template_id!: number;
 }
 
 Project.init(
@@ -51,6 +57,16 @@ Project.init(
         end_date: {
             allowNull: false,
             type: Sequelize.DATE,
+        },
+        template_id: {
+            type: Sequelize.INTEGER,
+            allowNull: true,
+            references: {
+                model: 'ProjectsTemplates',
+                key: 'id',
+            },
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
         },
     },
     {
