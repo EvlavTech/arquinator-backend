@@ -22,6 +22,10 @@ class BaseService<T extends Sequelize.Model<T> & K, K> {
 
     async findById(id: number): Promise<K | null> {
         const object = await this.repository.findById(id);
+        if (!object) {
+            throw new BaseError(`Object with ID = ${id} not found!`, 404);
+        }
+
         return object;
     }
 
