@@ -3,10 +3,6 @@ import bcryptjs from 'bcryptjs';
 
 import database from '@database/index';
 
-import Task from './Task';
-import Permission from './Permission';
-import TaskTemplate from './templates/TaskTemplate';
-
 export interface IUser {
     id: number;
 
@@ -33,6 +29,24 @@ class User extends Model {
     checkPassword(password: string) {
         return bcryptjs.compare(password, this.password_hash);
     }
+    static associate = (models: any) => {
+        User.hasMany(models.Task, {
+            foreignKey: 'owner_id',
+            as: 'task_creator',
+        });
+        User.hasMany(models.get(''), {
+            foreignKey: 'responsible_id',
+            as: 'responsible_task',
+        });
+        User.hasMany(models?.TaskTemplate, {
+            foreignKey: 'owner_id',
+            as: 'task_template_creator',
+        });
+        User.belongsToMany(models.Permission, {
+            through: 'UserPermissions',
+            foreignKey: 'userId',
+        });
+    };
 }
 
 User.init(
@@ -67,15 +81,13 @@ User.init(
     },
 );
 
-User.hasMany(Task, { foreignKey: 'owner_id', as: 'task_creator' });
-User.hasMany(Task, { foreignKey: 'responsible_id', as: 'responsible_task' });
-User.hasMany(TaskTemplate, { foreignKey: 'owner_id', as: 'task_template_creator' });
-User.hasMany(Permission, { foreignKey: 'user_id', as: 'permission' });
-
-User.addHook('beforeSave', async (user:User): Promise<void> => {
-    if (user.password) {
-        user.password_hash = await bcryptjs.hash(user.password, 8);
-    }
-});
+User.addHook(
+    'beforeSave',
+    async (user: User): Promise<void> => {
+        if (user.password) {
+            user.password_hash = await bcryptjs.hash(user.password, 8);
+        }
+    },
+);
 
 export default User;
