@@ -1,4 +1,4 @@
-import ProjectTemplate, { IProjectTemplate } from '@models/templates/ProjectTemplate';
+import ProjectTemplate, { IProjectTemplate } from '@models/ProjectTemplate';
 
 import BaseController from './BaseController';
 import ProjectTemplateService from '../services/ProjectTemplateService';

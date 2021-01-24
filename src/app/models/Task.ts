@@ -1,6 +1,6 @@
-import Sequelize, { Model } from 'sequelize';
+import DataTypes, { Sequelize } from 'sequelize';
 
-import database from '@database/index';
+import GenericModel, { DB } from './GenericModel';
 
 export interface ITask{
     id: number;
@@ -16,7 +16,7 @@ export interface ITask{
     done: boolean;
 }
 
-class Task extends Model {
+class Task extends GenericModel {
     public id!: number;
 
     public start_date!: string;
@@ -38,87 +38,91 @@ class Task extends Model {
     public task_template_id!: number;
 
     public done!: boolean;
+
+    static associate(models: DB) {
+        Task.belongsTo(models.Task, { foreignKey: 'task_parent_id', as: 'task_parent' });
+    }
+
+    public static initModel(connection: Sequelize): void {
+        Task.init(
+            {
+                start_date: {
+                    allowNull: false,
+                    type: DataTypes.DATE,
+                },
+                end_date: {
+                    allowNull: false,
+                    type: DataTypes.DATE,
+                },
+                name: {
+                    allowNull: false,
+                    type: DataTypes.STRING,
+                },
+                description: {
+                    allowNull: true,
+                    type: DataTypes.STRING,
+                },
+                project_id: {
+                    type: DataTypes.INTEGER,
+                    allowNull: false,
+                    references: {
+                        model: 'Projects',
+                        key: 'id',
+                    },
+                    onDelete: 'CASCADE',
+                    onUpdate: 'CASCADE',
+                },
+                task_parent_id: {
+                    type: DataTypes.INTEGER,
+                    allowNull: true,
+                    references: {
+                        model: 'Tasks',
+                        key: 'id',
+                    },
+                    onDelete: 'CASCADE',
+                    onUpdate: 'CASCADE',
+                },
+                owner_id: {
+                    type: DataTypes.INTEGER,
+                    allowNull: false,
+                    references: {
+                        model: 'Users',
+                        key: 'id',
+                    },
+                    onDelete: 'CASCADE',
+                    onUpdate: 'CASCADE',
+                },
+                responsible_id: {
+                    type: DataTypes.INTEGER,
+                    allowNull: true,
+                    references: {
+                        model: 'Users',
+                        key: 'id',
+                    },
+                    onDelete: 'CASCADE',
+                    onUpdate: 'CASCADE',
+                },
+                task_template_id: {
+                    type: DataTypes.INTEGER,
+                    allowNull: true,
+                    references: {
+                        model: 'TaskTemplate',
+                        key: 'id',
+                    },
+                    onDelete: 'CASCADE',
+                    onUpdate: 'CASCADE',
+                },
+                done: {
+                    allowNull: false,
+                    type: DataTypes.BOOLEAN,
+                },
+            },
+            {
+                sequelize: connection,
+                tableName: 'Tasks',
+            },
+        );
+    }
 }
-
-Task.init(
-    {
-        start_date: {
-            allowNull: false,
-            type: Sequelize.DATE,
-        },
-        end_date: {
-            allowNull: false,
-            type: Sequelize.DATE,
-        },
-        name: {
-            allowNull: false,
-            type: Sequelize.STRING,
-        },
-        description: {
-            allowNull: true,
-            type: Sequelize.STRING,
-        },
-        project_id: {
-            type: Sequelize.INTEGER,
-            allowNull: false,
-            references: {
-                model: 'Projects',
-                key: 'id',
-            },
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE',
-        },
-        task_parent_id: {
-            type: Sequelize.INTEGER,
-            allowNull: true,
-            references: {
-                model: 'Tasks',
-                key: 'id',
-            },
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE',
-        },
-        owner_id: {
-            type: Sequelize.INTEGER,
-            allowNull: false,
-            references: {
-                model: 'Users',
-                key: 'id',
-            },
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE',
-        },
-        responsible_id: {
-            type: Sequelize.INTEGER,
-            allowNull: true,
-            references: {
-                model: 'Users',
-                key: 'id',
-            },
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE',
-        },
-        task_template_id: {
-            type: Sequelize.INTEGER,
-            allowNull: true,
-            references: {
-                model: 'TaskTemplate',
-                key: 'id',
-            },
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE',
-        },
-        done: {
-            allowNull: false,
-            type: Sequelize.BOOLEAN,
-        },
-    },
-    {
-        sequelize: database.connection,
-        tableName: 'Tasks',
-    },
-);
-
-Task.belongsTo(Task, { foreignKey: 'task_parent_id', as: 'task_parent' });
 
 export default Task;

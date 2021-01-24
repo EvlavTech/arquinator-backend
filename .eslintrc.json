@@ -23,6 +23,9 @@
         "no-param-reassign": "off",
         "camelcase": "off",
         "no-unused-vars": ["error", { "argsIgnorePattern": "next" }],
+        "no-console": "off",
+        "global-require": "off",
+        "import/no-dynamic-require": "off",
         "import-helpers/order-imports": [
             "warn",
             {
