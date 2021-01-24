@@ -2,19 +2,15 @@ import DataTypes, { Sequelize } from 'sequelize';
 
 import GenericModel, { DB } from './GenericModel';
 
-export interface IProject {
-    id: number;
+export interface IProjectTemplate {
     name: string;
     description: string;
     owner_id: number;
     start_date: Date;
     end_date: Date;
-    template_id: number;
 }
 
-class Project extends GenericModel {
-    public id!: number;
-
+class ProjectTemplate extends GenericModel {
     public name!: string;
 
     public description!: string;
@@ -25,14 +21,13 @@ class Project extends GenericModel {
 
     public end_date!: Date;
 
-    public template_id!: number;
-
     static associate(models: DB) {
-        Project.hasMany(models.Task, { foreignKey: 'projet_id', as: 'tasks' });
+        ProjectTemplate.hasMany(models.TaskTemplate, { foreignKey: 'project_template_id', as: 'tasks' });
+        ProjectTemplate.hasMany(models.Project, { foreignKey: 'template_id', as: 'template' });
     }
 
     public static initModel(connection: Sequelize): void {
-        Project.init(
+        ProjectTemplate.init(
             {
                 name: {
                     allowNull: false,
@@ -60,23 +55,13 @@ class Project extends GenericModel {
                     allowNull: false,
                     type: DataTypes.DATE,
                 },
-                template_id: {
-                    type: DataTypes.INTEGER,
-                    allowNull: true,
-                    references: {
-                        model: 'ProjectsTemplates',
-                        key: 'id',
-                    },
-                    onDelete: 'CASCADE',
-                    onUpdate: 'CASCADE',
-                },
             },
             {
                 sequelize: connection,
-                tableName: 'Projects',
+                tableName: 'ProjectsTemplates',
             },
         );
     }
 }
 
-export default Project;
+export default ProjectTemplate;
