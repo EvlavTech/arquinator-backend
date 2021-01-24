@@ -20,6 +20,11 @@ export default function routes(app: Express) {
         '/tasks',
         (req, res) => TaskController.index(req, res),
     );
+    app.get(
+        '/tasks/:id',
+        validateParamsDTO(TaskUpdateAndDelete),
+        (req, res) => TaskController.get(req, res),
+    );
     app.delete(
         '/tasks/:id',
         validateParamsDTO(TaskUpdateAndDelete),
