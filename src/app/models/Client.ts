@@ -1,9 +1,6 @@
-import Sequelize, { Model } from 'sequelize';
+import DataTypes, { Sequelize } from 'sequelize';
 
-import database from '@database/index';
-
-import Project from './Project';
-import ProjectTemplate from './templates/ProjectTemplate';
+import GenericModel, { DB } from './GenericModel';
 
 export interface IClient {
     name: string;
@@ -11,36 +8,40 @@ export interface IClient {
     company_id: number;
 }
 
-class Client extends Model {
+class Client extends GenericModel {
     public name!: string;
 
     public company_id!: number;
-}
 
-Client.init(
-    {
-        name: {
-            allowNull: false,
-            type: Sequelize.STRING,
-        },
-        company_id: {
-            type: Sequelize.INTEGER,
-            allowNull: false,
-            references: {
-                model: 'Companies',
-                key: 'id',
+    static associate(models: DB) {
+        Client.hasMany(models.Project, { foreignKey: 'owner_id', as: 'projects' });
+        Client.hasMany(models.ProjectTemplate, { foreignKey: 'owner_id', as: 'projects_templates' });
+    }
+
+    static initModel(connection: Sequelize) {
+        Client.init(
+            {
+                name: {
+                    allowNull: false,
+                    type: DataTypes.STRING,
+                },
+                company_id: {
+                    type: DataTypes.INTEGER,
+                    allowNull: false,
+                    references: {
+                        model: 'Companies',
+                        key: 'id',
+                    },
+                    onDelete: 'CASCADE',
+                    onUpdate: 'CASCADE',
+                },
             },
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE',
-        },
-    },
-    {
-        sequelize: database.connection,
-        tableName: 'Clients',
-    },
-);
-
-Client.hasMany(Project, { foreignKey: 'owner_id', as: 'projects' });
-Client.hasMany(ProjectTemplate, { foreignKey: 'owner_id', as: 'projects_templates' });
+            {
+                sequelize: connection,
+                tableName: 'Clients',
+            },
+        );
+    }
+}
 
 export default Client;

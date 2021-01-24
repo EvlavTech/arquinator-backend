@@ -1,7 +1,7 @@
 import ProjectTemplateRepository from '@repositories/ProjectTemplateRepository';
 import ProjectRepository from '@repositories/ProjectRepository';
 
-import ProjectTemplate, { IProjectTemplate } from '@models/templates/ProjectTemplate';
+import ProjectTemplate, { IProjectTemplate } from '@models/ProjectTemplate';
 
 import BaseService from './BaseService';
 import BaseError from '../errors/BaseError';
