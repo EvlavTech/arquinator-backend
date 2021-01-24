@@ -2,7 +2,17 @@ import DataTypes, { Sequelize } from 'sequelize';
 
 import GenericModel from './GenericModel';
 
+export interface ITaskTemplate{
+    id: number;
+    name: string;
+    duration: number;
+    project_template_id: number;
+    owner_id: number;
+}
+
 class TaskTemplate extends GenericModel {
+    public id!: number;
+
     public name!: string;
 
     public duration!: number;
@@ -45,7 +55,7 @@ class TaskTemplate extends GenericModel {
             },
             {
                 sequelize: connection,
-                tableName: 'TasksTemplate',
+                tableName: 'TaskTemplate',
             },
         );
     }

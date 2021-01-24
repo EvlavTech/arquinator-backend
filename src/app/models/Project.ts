@@ -28,7 +28,7 @@ class Project extends GenericModel {
     public template_id!: number;
 
     static associate(models: DB) {
-        Project.hasMany(models.Task, { foreignKey: 'projet_id', as: 'tasks' });
+        Project.hasMany(models.Task, { foreignKey: 'project_id', as: 'tasks' });
     }
 
     public static initModel(connection: Sequelize): void {

@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import Sequelize from 'sequelize';
 
-import BaseError from '../errors/BaseError';
 import BaseService from '../services/BaseService';
 
+// eslint-disable-next-line no-use-before-define
 class BaseController<T extends Sequelize.Model<T> & K, K> {
     public service: BaseService<T, K>;
 

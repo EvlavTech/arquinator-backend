@@ -2,7 +2,23 @@ import DataTypes, { Sequelize } from 'sequelize';
 
 import GenericModel, { DB } from './GenericModel';
 
+export interface ITask{
+    id: number;
+    start_date: string;
+    end_date: string;
+    name: string;
+    description: string;
+    project_id: number;
+    task_parent_id: number;
+    owner_id: number;
+    responsible_id: number;
+    task_template_id: number;
+    done: boolean;
+}
+
 class Task extends GenericModel {
+    public id!: number;
+
     public start_date!: string;
 
     public end_date!: string;
@@ -11,13 +27,15 @@ class Task extends GenericModel {
 
     public description!: string;
 
-    public projet_id!: number;
+    public project_id!: number;
 
     public task_parent_id!: number;
 
     public owner_id!: number;
 
     public responsible_id!: number;
+
+    public task_template_id!: number;
 
     public done!: boolean;
 
@@ -44,7 +62,7 @@ class Task extends GenericModel {
                     allowNull: true,
                     type: DataTypes.STRING,
                 },
-                projet_id: {
+                project_id: {
                     type: DataTypes.INTEGER,
                     allowNull: false,
                     references: {
@@ -79,6 +97,16 @@ class Task extends GenericModel {
                     allowNull: true,
                     references: {
                         model: 'Users',
+                        key: 'id',
+                    },
+                    onDelete: 'CASCADE',
+                    onUpdate: 'CASCADE',
+                },
+                task_template_id: {
+                    type: DataTypes.INTEGER,
+                    allowNull: true,
+                    references: {
+                        model: 'TaskTemplate',
                         key: 'id',
                     },
                     onDelete: 'CASCADE',
