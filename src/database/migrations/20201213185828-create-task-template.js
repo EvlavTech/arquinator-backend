@@ -1,6 +1,6 @@
 module.exports = {
     up: async (queryInterface, Sequelize) => {
-        const TaskTemplateTable = queryInterface.createTable('TasksTemplate', {
+        const TaskTemplateTable = queryInterface.createTable('TaskTemplate', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
@@ -48,5 +48,5 @@ module.exports = {
         return TaskTemplateTable;
     },
 
-    down: async (queryInterface) => queryInterface.dropTable('TasksTemplate'),
+    down: async (queryInterface) => queryInterface.dropTable('TaskTemplate'),
 };

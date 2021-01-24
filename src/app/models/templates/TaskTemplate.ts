@@ -2,7 +2,17 @@ import Sequelize, { Model } from 'sequelize';
 
 import database from '@database/index';
 
+export interface ITaskTemplate{
+    id: number;
+    name: string;
+    duration: number;
+    project_template_id: number;
+    owner_id: number;
+}
+
 class TaskTemplate extends Model {
+    public id !: number;
+
     public name!: string;
 
     public duration!: number;
@@ -45,7 +55,7 @@ TaskTemplate.init(
     },
     {
         sequelize: database.connection,
-        tableName: 'TasksTemplate',
+        tableName: 'TaskTemplate',
     },
 );
 

@@ -2,7 +2,23 @@ import Sequelize, { Model } from 'sequelize';
 
 import database from '@database/index';
 
+export interface ITask{
+    id: number;
+    start_date: string;
+    end_date: string;
+    name: string;
+    description: string;
+    project_id: number;
+    task_parent_id: number;
+    owner_id: number;
+    responsible_id: number;
+    task_template_id: number;
+    done: boolean;
+}
+
 class Task extends Model {
+    public id!: number;
+
     public start_date!: string;
 
     public end_date!: string;
@@ -11,13 +27,15 @@ class Task extends Model {
 
     public description!: string;
 
-    public projet_id!: number;
+    public project_id!: number;
 
     public task_parent_id!: number;
 
     public owner_id!: number;
 
     public responsible_id!: number;
+
+    public task_template_id!: number;
 
     public done!: boolean;
 }
@@ -40,7 +58,7 @@ Task.init(
             allowNull: true,
             type: Sequelize.STRING,
         },
-        projet_id: {
+        project_id: {
             type: Sequelize.INTEGER,
             allowNull: false,
             references: {
@@ -75,6 +93,16 @@ Task.init(
             allowNull: true,
             references: {
                 model: 'Users',
+                key: 'id',
+            },
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
+        },
+        task_template_id: {
+            type: Sequelize.INTEGER,
+            allowNull: true,
+            references: {
+                model: 'TaskTemplate',
                 key: 'id',
             },
             onDelete: 'CASCADE',

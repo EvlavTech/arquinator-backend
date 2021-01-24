@@ -75,6 +75,6 @@ Project.init(
     },
 );
 
-Project.hasMany(Task, { foreignKey: 'projet_id', as: 'tasks' });
+Project.hasMany(Task, { foreignKey: 'project_id', as: 'tasks' });
 
 export default Project;
