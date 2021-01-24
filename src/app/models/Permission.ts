@@ -1,34 +1,44 @@
-import Sequelize, { Model } from 'sequelize';
+import DataTypes, { Sequelize } from 'sequelize';
 
-import database from '@database/index';
-
-import User from '@models/User';
-import UserPermission from '@models/UserPermission';
+import GenericModel, { DB } from './GenericModel';
 
 export interface IPermission {
     name: string;
 }
 
-class Permission extends Model {
-    public name!: string;
+class Permission extends GenericModel {
+    public user_id!: number;
+
+    public permission!: string;
+
+    public static initModel(connection: Sequelize): void {
+        Permission.init(
+            {
+                user_id: {
+                    type: DataTypes.INTEGER,
+                    allowNull: false,
+                    references: {
+                        model: 'Users',
+                        key: 'id',
+                    },
+                    onDelete: 'CASCADE',
+                    onUpdate: 'CASCADE',
+                },
+                permission: {
+                    allowNull: false,
+                    type: DataTypes.STRING,
+                },
+            },
+            {
+                sequelize: connection,
+                tableName: 'Permissions',
+            },
+        );
+    }
+
+    static associate(models: DB) {
+        Permission.belongsToMany(models.User, { through: 'UserPermissions' });
+    }
 }
-
-Permission.init(
-    {
-        name: {
-            allowNull: false,
-            type: Sequelize.STRING,
-        },
-    },
-    {
-        sequelize: database.connection,
-        tableName: 'Permissions',
-    },
-);
-
-Permission.belongsToMany(User, {
-    through: 'UserPermissions',
-    foreignKey: 'permissionId',
-});
 
 export default Permission;

@@ -1,7 +1,7 @@
-import Sequelize, { Model } from 'sequelize';
+import DataTypes, { Sequelize } from 'sequelize';
 import bcryptjs from 'bcryptjs';
 
-import database from '@database/index';
+import GenericModel, { DB } from './GenericModel';
 
 export interface IUser {
     id: number;
@@ -13,7 +13,7 @@ export interface IUser {
     company_id: number;
 }
 
-class User extends Model {
+class User extends GenericModel {
     public id!: number;
 
     public name!: string;
@@ -29,65 +29,54 @@ class User extends Model {
     checkPassword(password: string) {
         return bcryptjs.compare(password, this.password_hash);
     }
-    static associate = (models: any) => {
-        User.hasMany(models.Task, {
-            foreignKey: 'owner_id',
-            as: 'task_creator',
-        });
-        User.hasMany(models.get(''), {
-            foreignKey: 'responsible_id',
-            as: 'responsible_task',
-        });
-        User.hasMany(models?.TaskTemplate, {
-            foreignKey: 'owner_id',
-            as: 'task_template_creator',
-        });
-        User.belongsToMany(models.Permission, {
-            through: 'UserPermissions',
-            foreignKey: 'userId',
-        });
-    };
-}
 
-User.init(
-    {
-        name: {
-            type: Sequelize.STRING,
-            allowNull: false,
-        },
-        email: {
-            allowNull: false,
-            unique: true,
-            type: Sequelize.STRING,
-        },
-        password: Sequelize.VIRTUAL,
-        password_hash: {
-            type: Sequelize.STRING,
-        },
-        company_id: {
-            type: Sequelize.INTEGER,
-            allowNull: false,
-            references: {
-                model: 'Companies',
-                key: 'id',
+    static associate(models: DB) {
+        User.hasMany(models.Task, { foreignKey: 'owner_id', as: 'task_creator' });
+        User.hasMany(models.Task, { foreignKey: 'responsible_id', as: 'responsible_task' });
+        User.hasMany(models.TaskTemplate, { foreignKey: 'owner_id', as: 'task_template_creator' });
+        User.hasMany(models.Permission, { foreignKey: 'user_id', as: 'permission' });
+        User.belongsToMany(models.Permission, { through: 'UserPermissions' });
+    }
+
+    public static initModel(connection: Sequelize): void {
+        User.init(
+            {
+                name: {
+                    type: DataTypes.STRING,
+                    allowNull: false,
+                },
+                email: {
+                    allowNull: false,
+                    unique: true,
+                    type: DataTypes.STRING,
+                },
+                password: DataTypes.VIRTUAL,
+                password_hash: {
+                    type: DataTypes.STRING,
+                },
+                company_id: {
+                    type: DataTypes.INTEGER,
+                    allowNull: false,
+                    references: {
+                        model: 'Companies',
+                        key: 'id',
+                    },
+                    onDelete: 'CASCADE',
+                    onUpdate: 'CASCADE',
+                },
             },
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE',
-        },
-    },
-    {
-        sequelize: database.connection,
-        tableName: 'Users',
-    },
-);
+            {
+                sequelize: connection,
+                tableName: 'Users',
+            },
+        );
 
-User.addHook(
-    'beforeSave',
-    async (user: User): Promise<void> => {
-        if (user.password) {
-            user.password_hash = await bcryptjs.hash(user.password, 8);
-        }
-    },
-);
+        User.addHook('beforeSave', async (user:User): Promise<void> => {
+            if (user.password) {
+                user.password_hash = await bcryptjs.hash(user.password, 8);
+            }
+        });
+    }
+}
 
 export default User;
