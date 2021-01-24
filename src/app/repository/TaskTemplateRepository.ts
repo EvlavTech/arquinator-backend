@@ -1,4 +1,4 @@
-import TaskTemplate, { ITaskTemplate } from '@models/templates/TaskTemplate';
+import TaskTemplate, { ITaskTemplate } from '@models/TaskTemplate';
 
 import BaseRepository from './BaseRepository';
 

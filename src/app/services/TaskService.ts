@@ -1,7 +1,7 @@
 import TaskRepository from '@repositories/TaskRepository';
 import TaskTemplateRepository from '@repositories/TaskTemplateRepository';
 
-import { ITaskTemplate } from '@models/templates/TaskTemplate';
+import { ITaskTemplate } from '@models/TaskTemplate';
 import Tasks, { ITask } from '@models/Task';
 
 import BaseService from './BaseService';
