@@ -13,6 +13,16 @@ export interface IUser {
     company_id: number;
 }
 
+export interface IUserSession{
+    id: number;
+
+    name: string;
+
+    email: string;
+
+    password_hash: string;
+}
+
 class User extends GenericModel {
     public id!: number;
 
