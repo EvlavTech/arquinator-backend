@@ -28,7 +28,13 @@ class SessionService {
             throw new BaseError('Invalid Password', 401);
         }
 
-        const token = sign({}, '9fb27199033ac8b8e04bcecea167c561', {
+        const md5SignHash = process.env.TOKEN_HASH;
+
+        if (!md5SignHash) {
+            throw new BaseError('No hash on enviroment', 404);
+        }
+
+        const token = sign({}, md5SignHash, {
             subject: String(user.id),
             expiresIn: '1d',
         });
