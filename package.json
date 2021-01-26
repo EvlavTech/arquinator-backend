@@ -13,7 +13,9 @@
     "migrate:undo": "yarn sequelize db:migrate:undo --env development",
     "migrate:undo:all": "yarn sequelize db:migrate:undo:all --env development",
     "clean": "rm -rf dist",
-    "test:unit": "ENV_FILE=./config/.env.test jest --detectOpenHandles"
+    "migrate:test": "yarn sequelize db:migrate --env test",
+    "migrate:undo:all:test": "yarn sequelize db:migrate:undo:all --env test",
+    "test:unit": "yarn migrate:test && ENV_FILE=./config/.env.test jest --detectOpenHandles && yarn migrate:undo:all:test"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",

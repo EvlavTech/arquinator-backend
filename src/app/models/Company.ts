@@ -3,6 +3,7 @@ import DataTypes, { Sequelize } from 'sequelize';
 import GenericModel, { DB } from './GenericModel';
 
 export interface ICompany {
+    id: number;
     name: string;
 }
 
