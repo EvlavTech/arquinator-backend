@@ -26,6 +26,7 @@
         "no-console": "off",
         "global-require": "off",
         "import/no-dynamic-require": "off",
+        "no-nested-ternary": "off",
         "import-helpers/order-imports": [
             "warn",
             {

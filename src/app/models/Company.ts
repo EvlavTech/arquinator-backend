@@ -8,6 +8,8 @@ export interface ICompany {
 }
 
 class Company extends GenericModel {
+    public id!: number;
+
     public name!: string;
 
     static associate(models: DB) {

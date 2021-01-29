@@ -4,20 +4,33 @@
     "password": "arquinator2020",
     "database": "arquinator",
     "host": "localhost",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "define": {
+        "timestamps": true,
+        "underscored": true
+    }
   },
   "test": {
     "username": "postgres",
     "password": "arquinator2020",
     "database": "arquinator_test",
     "host": "localhost",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "logging": false,
+    "define": {
+        "timestamps": true,
+        "underscored": true
+    }
   },
   "production": {
     "username": "root",
     "password": null,
     "database": "database_production",
     "host": "127.0.0.1",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "define": {
+        "timestamps": true,
+        "underscored": true
+    }
   }
 }
