@@ -1,8 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable consistent-return */
 import '../../src/app';
-import CompanyRepository from '@repositories/CompanyRepository';
-
+import CompanyRepository from '../../src/app/repository/CompanyRepository';
 import ClientRepository from '../../src/app/repository/ClientRepository';
 
 describe('Tests client repository', () => {
@@ -32,8 +31,8 @@ describe('Tests client repository', () => {
         const clients = await ClientRepository.findAll();
 
         expect(clients).toMatchObject([
-            { name: 'Client 1 Test', company_id: 3 },
-            { name: 'Client 2 Test', company_id: 3 },
+            { name: 'Client 1 Test' },
+            { name: 'Client 2 Test' },
         ]);
     });
 
@@ -41,7 +40,7 @@ describe('Tests client repository', () => {
         const clients = await ClientRepository.findAll();
 
         expect(clients).not.toMatchObject([
-            { name: 'Client 1 Test', company_id: 3 },
+            { name: 'Client 1 Test' },
         ]);
     });
 
@@ -49,7 +48,7 @@ describe('Tests client repository', () => {
         const clients = await ClientRepository.findByFilters({ name: 'Client 1 Test' });
 
         expect(clients).toMatchObject([
-            { name: 'Client 1 Test', company_id: 3 },
+            { name: 'Client 1 Test' },
         ]);
 
         expect(clients.length).toEqual(1);
@@ -61,16 +60,6 @@ describe('Tests client repository', () => {
         expect(clients).toMatchObject([]);
     });
 
-    it('Test get clients with filters with company_id is equal 1', async () => {
-        const clients = await ClientRepository.findByFilters({ company_id: 3 });
-
-        expect(clients).toMatchObject([
-            { name: 'Client 1 Test', company_id: 3 },
-            { name: 'Client 2 Test', company_id: 3 },
-        ]);
-        expect(clients.length).toEqual(2);
-    });
-
     it('Test get clients with filters with company_id is not exists', async () => {
         const clients = await ClientRepository.findByFilters({ company_id: 2 });
 
@@ -80,7 +69,7 @@ describe('Tests client repository', () => {
     it('Test get by id clients', async () => {
         const clients = await ClientRepository.findById(1);
 
-        expect(clients).toMatchObject({ name: 'Client 1 Test', company_id: 3 });
+        expect(clients).toMatchObject({ name: 'Client 1 Test' });
     });
 
     it('Test get by id clients with id not exists', async () => {
@@ -94,7 +83,7 @@ describe('Tests client repository', () => {
         const client = await ClientRepository.findById(1);
 
         expect(clients[0]).toEqual(1);
-        expect(client).toMatchObject({ name: 'Client 1 Test Update', company_id: 3 });
+        expect(client).toMatchObject({ name: 'Client 1 Test Update' });
     });
 
     it('Test update clients with id not exists', async () => {
@@ -107,7 +96,7 @@ describe('Tests client repository', () => {
         const client = await ClientRepository.delete(1);
         const client_deleted = await ClientRepository.findById(1);
 
-        expect(client).toMatchObject({ name: 'Client 1 Test Update', company_id: 3 });
+        expect(client).toMatchObject({ name: 'Client 1 Test Update' });
         expect(client_deleted).toEqual(null);
     });
 
@@ -115,5 +104,10 @@ describe('Tests client repository', () => {
         const client = await ClientRepository.delete(3);
 
         expect(client).toEqual(null);
+    });
+
+    afterAll(async () => {
+        await ClientRepository.delete(2);
+        await CompanyRepository.delete(1);
     });
 });

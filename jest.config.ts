@@ -2,7 +2,8 @@ module.exports = {
     preset: 'ts-jest',
     testEnvironment: 'node',
     moduleNameMapper: {
-        '@core/(.*)': '<rootDir>/src',
+        '@test/(.*)': '<rootDir>/__tests__/$1',
+        '@core/(.*)': '<rootDir>/',
         '@controllers/(.*)': '<rootDir>/src/app/controllers/$1',
         '@models/(.*)': '<rootDir>/src/app/models/$1',
         '@dto/(.*)': '<rootDir>/src/app/dto/$1',
