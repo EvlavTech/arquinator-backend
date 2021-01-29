@@ -3,12 +3,16 @@ import DataTypes, { Sequelize } from 'sequelize';
 import GenericModel, { DB } from './GenericModel';
 
 export interface IClient {
+    id: number;
+
     name: string;
 
     company_id: number;
 }
 
 class Client extends GenericModel {
+    id!: number;
+
     public name!: string;
 
     public company_id!: number;
