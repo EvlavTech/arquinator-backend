@@ -3,23 +3,23 @@ import DataTypes, { Sequelize } from 'sequelize';
 import GenericModel, { DB } from './GenericModel';
 
 export interface IProjectTemplate {
+    id: number;
     name: string;
     description: string;
     owner_id: number;
-    start_date: Date;
-    end_date: Date;
+    duration: number;
 }
 
 class ProjectTemplate extends GenericModel {
+    public id!: number;
+
     public name!: string;
 
     public description!: string;
 
     public owner_id!: number;
 
-    public start_date!: Date;
-
-    public end_date!: Date;
+    public duration!: number;
 
     static associate(models: DB) {
         ProjectTemplate.hasMany(models.TaskTemplate, { foreignKey: 'project_template_id', as: 'tasks' });
@@ -47,13 +47,9 @@ class ProjectTemplate extends GenericModel {
                     onDelete: 'CASCADE',
                     onUpdate: 'CASCADE',
                 },
-                start_date: {
+                duration: {
                     allowNull: false,
-                    type: DataTypes.DATE,
-                },
-                end_date: {
-                    allowNull: false,
-                    type: DataTypes.DATE,
+                    type: DataTypes.INTEGER,
                 },
             },
             {
