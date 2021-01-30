@@ -3,10 +3,13 @@ import DataTypes, { Sequelize } from 'sequelize';
 import GenericModel, { DB } from './GenericModel';
 
 export interface ICompany {
+    id: number;
     name: string;
 }
 
 class Company extends GenericModel {
+    public id!: number;
+
     public name!: string;
 
     static associate(models: DB) {

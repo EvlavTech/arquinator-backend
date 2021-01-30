@@ -1,12 +1,18 @@
 import 'dotenv/config';
-import DataTypes, { Model, Sequelize } from 'sequelize';
+import { Sequelize } from 'sequelize';
 import fs from 'fs';
 import path from 'path';
 
 import { DB } from '@models/GenericModel';
 
+import { development, production, test } from '../config/database.json';
+
 const basename = path.resolve(__dirname, '../app/models/');
 const db: DB = {};
+
+const variables_db = process.env.NODE_ENV === 'test'
+    ? test
+    : process.env.NODE_ENV === 'dev' ? development : production;
 
 class Database {
     public connection: Sequelize;
@@ -17,17 +23,8 @@ class Database {
     }
 
     init() {
-        return new Sequelize({
-            dialect: 'postgres',
-            host: process.env.HOST_DB,
-            username: process.env.DB_USERNAME,
-            password: process.env.DB_PASSWORD,
-            database: process.env.DB_NAME,
-            define: {
-                timestamps: true,
-                underscored: true,
-            },
-        });
+        // @ts-ignore
+        return new Sequelize(variables_db);
     }
 
     loadModels() {
