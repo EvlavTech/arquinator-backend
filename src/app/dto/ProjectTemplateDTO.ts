@@ -5,16 +5,14 @@ export const ProjectTemplateCreate = yup.object().shape({
     name: yup.string().required(),
     description: yup.string().required(),
     owner_id: yup.number().required(),
-    start_date: yup.date().required(),
-    end_date: yup.date().required(),
+    duration: yup.number().required(),
 });
 
 export const ProjectTemplateUpdate = yup.object().shape({
     name: yup.string(),
     description: yup.string(),
     owner_id: yup.number(),
-    start_date: yup.date(),
-    end_date: yup.date(),
+    duration: yup.number(),
 });
 
 export const ProjectTemplateUpdateAndDelete = yup.object().shape({
