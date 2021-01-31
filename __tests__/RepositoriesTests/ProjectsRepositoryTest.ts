@@ -5,8 +5,11 @@ import CompanyRepository from '../../src/app/repository/CompanyRepository';
 import ClientRepository from '../../src/app/repository/ClientRepository';
 import ProjectRepository from '../../src/app/repository/ProjectRepository';
 import { ICompany } from '../../src/app/models/Company';
+import { IProject } from '../../src/app/models/Project';
 
 let company_created_1: ICompany;
+let project_created_1: IProject;
+let project_created_2: IProject;
 
 describe('Tests project repository', () => {
     it('Test create project', async () => {
@@ -19,7 +22,7 @@ describe('Tests project repository', () => {
             company_id: company_created_1.id,
         });
 
-        const project_created_1 = await ProjectRepository.create({
+        project_created_1 = await ProjectRepository.create({
             name: 'Project Test 1',
             description: 'Description project 1',
             owner_id: client_created_1.id,
@@ -27,7 +30,7 @@ describe('Tests project repository', () => {
             end_date: '2020-12-25T03:00:00.000Z',
         });
 
-        const project_created_2 = await ProjectRepository.create({
+        project_created_2 = await ProjectRepository.create({
             name: 'Project Test 2',
             description: 'Description project 2',
             owner_id: client_created_1.id,
@@ -74,7 +77,8 @@ describe('Tests project repository', () => {
     });
 
     it('Test get projects with filters', async () => {
-        const projects = await ProjectRepository.findByFilters({ name: 'Project Test 1' });
+        const projects = await ProjectRepository
+            .findByFilters({ name: 'Project Test 1' });
 
         expect(projects).toMatchObject([
             {
@@ -89,13 +93,15 @@ describe('Tests project repository', () => {
     });
 
     it('Test get projects with filters with name is not exists', async () => {
-        const projects = await ProjectRepository.findByFilters({ name: 'Project Test' });
+        const projects = await ProjectRepository
+            .findByFilters({ name: 'Project Test' });
 
         expect(projects).toMatchObject([]);
     });
 
     it('Test get projects with filters with id is equal 1', async () => {
-        const projects = await ProjectRepository.findByFilters({ id: 1 });
+        const projects = await ProjectRepository
+            .findByFilters({ id: project_created_1.id });
 
         expect(projects).toMatchObject([
             {
@@ -109,13 +115,13 @@ describe('Tests project repository', () => {
     });
 
     it('Test get projects with filters with id is not exists', async () => {
-        const projects = await ProjectRepository.findByFilters({ id: 5 });
+        const projects = await ProjectRepository.findByFilters({ id: 150 });
 
         expect(projects).toMatchObject([]);
     });
 
     it('Test get by id projects', async () => {
-        const projects = await ProjectRepository.findById(2);
+        const projects = await ProjectRepository.findById(project_created_2.id);
 
         expect(projects).toMatchObject({
             name: 'Project Test 2',
@@ -132,8 +138,8 @@ describe('Tests project repository', () => {
     });
 
     it('Test update projects', async () => {
-        const projects = await ProjectRepository.update(2, { name: 'Project Test 2 Update' });
-        const project = await ProjectRepository.findById(2);
+        const projects = await ProjectRepository.update(project_created_2.id, { name: 'Project Test 2 Update' });
+        const project = await ProjectRepository.findById(project_created_2.id);
 
         expect(projects[0]).toEqual(1);
         expect(project).toMatchObject({
@@ -145,14 +151,14 @@ describe('Tests project repository', () => {
     });
 
     it('Test update projects with id not exists', async () => {
-        const projects = await ProjectRepository.update(5, { name: 'Company 3 Test Update' });
+        const projects = await ProjectRepository.update(150, { name: 'Company 3 Test Update' });
 
         expect(projects[0]).toEqual(0);
     });
 
     it('Test delete projects', async () => {
-        const project = await ProjectRepository.delete(2);
-        const project_deleted = await ProjectRepository.findById(2);
+        const project = await ProjectRepository.delete(project_created_2.id);
+        const project_deleted = await ProjectRepository.findById(project_created_2.id);
 
         expect(project).toMatchObject({
             name: 'Project Test 2 Update',
@@ -163,8 +169,8 @@ describe('Tests project repository', () => {
         expect(project_deleted).toEqual(null);
     });
 
-    it('Test delete companies with id not exists', async () => {
-        const project = await ProjectRepository.delete(5);
+    it('Test delete projects with id not exists', async () => {
+        const project = await ProjectRepository.delete(150);
 
         expect(project).toEqual(null);
     });
