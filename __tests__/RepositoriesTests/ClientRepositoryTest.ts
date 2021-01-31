@@ -3,19 +3,25 @@
 import '../../src/app';
 import CompanyRepository from '../../src/app/repository/CompanyRepository';
 import ClientRepository from '../../src/app/repository/ClientRepository';
+import { ICompany } from '../../src/app/models/Company';
+import { IClient } from '../../src/app/models/Client';
+
+let company_created: ICompany;
+let created_client_1: IClient;
+let created_client_2: IClient;
 
 describe('Tests client repository', () => {
     it('Test create client', async () => {
-        const company_created = await CompanyRepository.create({
+        company_created = await CompanyRepository.create({
             name: 'Company Test',
         });
 
-        const created_client_1 = await ClientRepository.create({
+        created_client_1 = await ClientRepository.create({
             name: 'Client 1 Test',
             company_id: company_created.id,
         });
 
-        const created_client_2 = await ClientRepository.create({
+        created_client_2 = await ClientRepository.create({
             name: 'Client 2 Test',
             company_id: company_created.id,
         });
@@ -61,53 +67,52 @@ describe('Tests client repository', () => {
     });
 
     it('Test get clients with filters with company_id is not exists', async () => {
-        const clients = await ClientRepository.findByFilters({ company_id: 2 });
+        const clients = await ClientRepository.findByFilters({ company_id: 150 });
 
         expect(clients).toMatchObject([]);
     });
 
     it('Test get by id clients', async () => {
-        const clients = await ClientRepository.findById(1);
+        const clients = await ClientRepository.findById(created_client_1.id);
 
         expect(clients).toMatchObject({ name: 'Client 1 Test' });
     });
 
     it('Test get by id clients with id not exists', async () => {
-        const clients = await ClientRepository.findById(3);
+        const clients = await ClientRepository.findById(150);
 
         expect(clients).toEqual(null);
     });
 
     it('Test update clients', async () => {
-        const clients = await ClientRepository.update(1, { name: 'Client 1 Test Update' });
-        const client = await ClientRepository.findById(1);
+        const clients = await ClientRepository.update(created_client_1.id, { name: 'Client 1 Test Update' });
+        const client = await ClientRepository.findById(created_client_1.id);
 
         expect(clients[0]).toEqual(1);
         expect(client).toMatchObject({ name: 'Client 1 Test Update' });
     });
 
     it('Test update clients with id not exists', async () => {
-        const clients = await ClientRepository.update(3, { name: 'Client 3 Test Update' });
+        const clients = await ClientRepository.update(150, { name: 'Client 3 Test Update' });
 
         expect(clients[0]).toEqual(0);
     });
 
     it('Test delete clients', async () => {
-        const client = await ClientRepository.delete(1);
-        const client_deleted = await ClientRepository.findById(1);
+        const client = await ClientRepository.delete(created_client_1.id);
+        const client_deleted = await ClientRepository.findById(created_client_1.id);
 
         expect(client).toMatchObject({ name: 'Client 1 Test Update' });
         expect(client_deleted).toEqual(null);
     });
 
     it('Test delete clients with id not exists', async () => {
-        const client = await ClientRepository.delete(3);
+        const client = await ClientRepository.delete(150);
 
         expect(client).toEqual(null);
     });
 
     afterAll(async () => {
-        await ClientRepository.delete(2);
-        await CompanyRepository.delete(1);
+        await CompanyRepository.delete(company_created.id);
     });
 });
