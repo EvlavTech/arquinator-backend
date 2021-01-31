@@ -38,7 +38,7 @@ describe('Tests project repository', () => {
 
         expect(project_template_created_1.name).toBe('Project Template Test 1');
         expect(project_template_created_1.description).toBe('Description project template 1');
-        expect(project_template_created_1.duration).toBe(25);
+        expect(project_template_created_1.duration).toBe(10);
         expect(project_template_created_1.owner_id).toBe(client_created_1.id);
 
         expect(project_template_created_2.name).toBe('Project Template Test 2');
@@ -96,7 +96,7 @@ describe('Tests project repository', () => {
 
     it('Test get projects templates with filters with id is equal 1', async () => {
         const projects_templates = await ProjectTemplateRepository
-            .findByFilters({ id: 1 });
+            .findByFilters({ id: project_template_created_1.id });
 
         expect(projects_templates).toMatchObject([
             {
@@ -108,63 +108,71 @@ describe('Tests project repository', () => {
         expect(projects_templates.length).toEqual(1);
     });
 
-    it('Test get projects with filters with id is not exists', async () => {
-        const projects = await ProjectTemplateRepository.findByFilters({ id: 5 });
+    it('Test get projects templates with filters with id is not exists', async () => {
+        const projects = await ProjectTemplateRepository
+            .findByFilters({ id: 150 });
 
         expect(projects).toMatchObject([]);
     });
 
-    it('Test get by id projects', async () => {
-        const projects = await ProjectTemplateRepository.findById(2);
+    it('Test get by id projects templates', async () => {
+        const projects = await ProjectTemplateRepository
+            .findById(project_template_created_2.id);
 
         expect(projects).toMatchObject({
-            name: 'Project Test 2',
-            description: 'Description project 2',
-            start_date: new Date('2020-12-20T03:00:00.000Z'),
-            end_date: new Date('2020-12-30T03:00:00.000Z'),
+            name: 'Project Template Test 2',
+            description: 'Description project template 2',
+            duration: 25,
         });
     });
 
     it('Test get by id projects with id not exists', async () => {
-        const projects = await ProjectTemplateRepository.findById(7);
+        const projects = await ProjectTemplateRepository.findById(150);
 
         expect(projects).toEqual(null);
     });
 
     it('Test update projects', async () => {
-        const projects = await ProjectTemplateRepository.update(2, { name: 'Project Test 2 Update' });
-        const project = await ProjectTemplateRepository.findById(2);
+        const projects = await ProjectTemplateRepository.update(
+            project_template_created_2.id,
+            { name: 'Project Template Test 2 Update' },
+        );
+        const project = await ProjectTemplateRepository
+            .findById(project_template_created_2.id);
 
         expect(projects[0]).toEqual(1);
         expect(project).toMatchObject({
-            name: 'Project Test 2 Update',
-            description: 'Description project 2',
-            start_date: new Date('2020-12-20T03:00:00.000Z'),
-            end_date: new Date('2020-12-30T03:00:00.000Z'),
+            name: 'Project Template Test 2 Update',
+            description: 'Description project template 2',
+            duration: 25,
         });
     });
 
     it('Test update projects with id not exists', async () => {
-        const projects = await ProjectTemplateRepository.update(5, { name: 'Company 3 Test Update' });
+        const projects = await ProjectTemplateRepository.update(150,
+            { name: 'Company 3 Test Update' });
 
         expect(projects[0]).toEqual(0);
     });
 
     it('Test delete projects', async () => {
-        const project = await ProjectTemplateRepository.delete(2);
-        const project_deleted = await ProjectTemplateRepository.findById(2);
+        const project = await ProjectTemplateRepository.delete(
+            project_template_created_2.id,
+        );
+        const project_deleted = await ProjectTemplateRepository.findById(
+            project_template_created_2.id,
+        );
 
         expect(project).toMatchObject({
-            name: 'Project Test 2 Update',
-            description: 'Description project 2',
-            start_date: new Date('2020-12-20T03:00:00.000Z'),
-            end_date: new Date('2020-12-30T03:00:00.000Z'),
+            name: 'Project Template Test 2 Update',
+            description: 'Description project template 2',
+            duration: 25,
         });
         expect(project_deleted).toEqual(null);
     });
 
     it('Test delete projects with id not exists', async () => {
-        const project = await ProjectTemplateRepository.delete(5);
+        const project = await ProjectTemplateRepository.delete(150);
 
         expect(project).toEqual(null);
     });
