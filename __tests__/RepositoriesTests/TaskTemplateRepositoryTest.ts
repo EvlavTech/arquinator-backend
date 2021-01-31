@@ -10,11 +10,14 @@ import { ICompany } from '../../src/app/models/Company';
 import { IUser } from '../../src/app/models/User';
 import { IClient } from '../../src/app/models/Client';
 import { IProjectTemplate } from '../../src/app/models/ProjectTemplate';
+import { ITaskTemplate } from '../../src/app/models/TaskTemplate';
 
 let company_created_1: ICompany;
 let user_created_1: IUser;
 let client_created_1: IClient;
 let project_template_1: IProjectTemplate;
+let created_task_template_1: ITaskTemplate;
+let created_task_template_2: ITaskTemplate;
 
 describe('Tests task template repository', () => {
     it('test create task template', async () => {
@@ -41,14 +44,14 @@ describe('Tests task template repository', () => {
             duration: 10,
         });
 
-        const created_task_template_1 = await TaskTemplateRepository.create({
+        created_task_template_1 = await TaskTemplateRepository.create({
             name: 'Template_1',
             duration: 10,
             project_template_id: project_template_1.id,
             owner_id: user_created_1.id,
         });
 
-        const created_task_template_2 = await TaskTemplateRepository.create({
+        created_task_template_2 = await TaskTemplateRepository.create({
             name: 'Template_2',
             duration: 12,
             project_template_id: project_template_1.id,
@@ -103,7 +106,8 @@ describe('Tests task template repository', () => {
     });
 
     it('Test get tasks with filters', async () => {
-        const tasks_templates = await TaskTemplateRepository.findByFilters({ name: 'Template_1' });
+        const tasks_templates = await TaskTemplateRepository
+            .findByFilters({ name: 'Template_1' });
 
         expect(tasks_templates).toMatchObject([
             { name: 'Template_1' },
@@ -113,29 +117,33 @@ describe('Tests task template repository', () => {
     });
 
     it('Test get tasks templates with filters with name is not exists', async () => {
-        const tasks_templates = await TaskTemplateRepository.findByFilters({ name: 'Nothing' });
+        const tasks_templates = await TaskTemplateRepository
+            .findByFilters({ name: 'Nothing' });
 
         expect(tasks_templates).toMatchObject([]);
     });
 
     it('Test get tasks templates with filters with id is equal 2', async () => {
-        const task_template = await TaskTemplateRepository.findByFilters({ id: 2 });
+        const task_template = await TaskTemplateRepository
+            .findByFilters({ id: created_task_template_2.id });
 
         expect(task_template).toMatchObject([
-            { name: 'Template_2', id: 2 },
+            { name: 'Template_2', id: created_task_template_2.id },
         ]);
         expect(task_template.length).toEqual(1);
     });
 
     it('Test get by id task templates with id not exists', async () => {
-        const task_template = await TaskTemplateRepository.findById(7);
+        const task_template = await TaskTemplateRepository.findById(10);
 
         expect(task_template).toEqual(null);
     });
 
     it('Test update tasks', async () => {
-        const task_template_update = await TaskTemplateRepository.update(2, { name: 'Template_2 Update' });
-        const task = await TaskTemplateRepository.findById(2);
+        const task_template_update = await TaskTemplateRepository
+            .update(created_task_template_2.id, { name: 'Template_2 Update' });
+        const task = await TaskTemplateRepository
+            .findById(created_task_template_2.id);
 
         expect(task_template_update[0]).toEqual(1);
         expect(task).toMatchObject({
@@ -146,15 +154,18 @@ describe('Tests task template repository', () => {
         });
     });
 
-    it('Test update tasks with id not exists', async () => {
-        const task_template = await TaskTemplateRepository.update(3, { name: 'Template_2 Test Update' });
+    it('Test update tasks templates with id not exists', async () => {
+        const task_template = await TaskTemplateRepository
+            .update(100, { name: 'Template_2 Test Update' });
 
         expect(task_template[0]).toEqual(0);
     });
 
-    it('Test delete tasks', async () => {
-        const task_template = await TaskTemplateRepository.delete(1);
-        const task_deleted = await TaskTemplateRepository.findById(1);
+    it('Test delete tasks templates', async () => {
+        const task_template = await TaskTemplateRepository
+            .delete(created_task_template_1.id);
+        const task_deleted = await TaskTemplateRepository
+            .findById(created_task_template_1.id);
 
         expect(task_template).toMatchObject({
             name: 'Template_1',
@@ -165,7 +176,7 @@ describe('Tests task template repository', () => {
         expect(task_deleted).toEqual(null);
     });
 
-    it('Test delete task with id not exists', async () => {
+    it('Test delete task template with id not exists', async () => {
         const task_template = await TaskTemplateRepository.delete(100);
 
         expect(task_template).toEqual(null);
