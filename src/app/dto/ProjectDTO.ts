@@ -2,6 +2,7 @@ import * as yup from 'yup';
 
 export const ProjectCreate = yup.object().shape({
     template_id: yup.number(),
+    value: yup.number(),
     name: yup.string().when(['template_id'], {
         is: (template_id: number) => !template_id,
         then: yup.string().required(),
@@ -30,6 +31,7 @@ export const ProjectUpdate = yup.object().shape({
     owner_id: yup.number(),
     start_date: yup.date(),
     end_date: yup.date(),
+    value: yup.number(),
 });
 
 export const ProjectupdateAndDelete = yup.object().shape({

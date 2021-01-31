@@ -9,6 +9,7 @@ export interface IProject {
     owner_id: number;
     start_date: Date;
     end_date: Date;
+    value: number;
     template_id: number;
 }
 
@@ -24,6 +25,8 @@ class Project extends GenericModel {
     public start_date!: Date;
 
     public end_date!: Date;
+
+    public value!: number;
 
     public template_id!: number;
 
@@ -59,6 +62,10 @@ class Project extends GenericModel {
                 end_date: {
                     allowNull: false,
                     type: DataTypes.DATE,
+                },
+                value: {
+                    allowNull: true,
+                    type: DataTypes.INTEGER,
                 },
                 template_id: {
                     type: DataTypes.INTEGER,
