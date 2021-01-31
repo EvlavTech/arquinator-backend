@@ -21,7 +21,7 @@ class ProjectService extends BaseService<Project, IProject> {
         );
 
         if (!projectTemplate) {
-            return new BaseError(`ProjectTemplate with ID = ${projectBody.template_id} not found!`, 404);
+            throw new BaseError(`Project Template with ID = ${projectBody.template_id} not found!`, 404);
         }
         const projectCreated = await ProjectRepository.create(
             this.makeProject(projectBody, projectTemplate),
