@@ -20,7 +20,7 @@ class TaskService extends BaseService<Tasks, ITask> {
         );
 
         if (!taskTemplate) {
-            return new BaseError(`Task Template with ID = ${taskBody.task_template_id} not found!`, 404);
+            throw new BaseError(`Task Template with ID = ${taskBody.task_template_id} not found!`, 404);
         }
         const taskCreated = await this.repository.create(
             this.makeProject(taskBody, taskTemplate),

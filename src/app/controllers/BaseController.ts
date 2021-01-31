@@ -16,7 +16,7 @@ class BaseController<T extends Sequelize.Model<T> & K, K> {
             const object = await this.service.create(req.body);
             return res.status(201).json(object);
         } catch (error) {
-            return res.status(500).json({ message: error.message });
+            return res.status(error.statusCode).json({ message: error.message });
         }
     }
 
@@ -25,7 +25,7 @@ class BaseController<T extends Sequelize.Model<T> & K, K> {
             const objects = await this.service.findAll();
             return res.status(200).json(objects);
         } catch (error) {
-            return res.status(500).json({ message: error.message });
+            return res.status(error.statusCode).json({ message: error.message });
         }
     }
 
