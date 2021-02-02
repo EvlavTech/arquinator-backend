@@ -1,32 +1,36 @@
-import Sequelize, { Model } from 'sequelize';
+import DataTypes, { Sequelize } from 'sequelize';
 
-import database from '@database/index';
-
-import Client from './Client';
-import User from './User';
+import GenericModel, { DB } from './GenericModel';
 
 export interface ICompany {
+    id: number;
     name: string;
 }
 
-class Company extends Model {
+class Company extends GenericModel {
+    public id!: number;
+
     public name!: string;
+
+    static associate(models: DB) {
+        Company.hasMany(models.Client, { foreignKey: 'company_id', as: 'clients' });
+        Company.hasMany(models.User, { foreignKey: 'company_id', as: 'users' });
+    }
+
+    public static initModel(connection: Sequelize): void {
+        Company.init(
+            {
+                name: {
+                    allowNull: false,
+                    type: DataTypes.STRING,
+                },
+            },
+            {
+                sequelize: connection,
+                tableName: 'Companies',
+            },
+        );
+    }
 }
-
-Company.init(
-    {
-        name: {
-            allowNull: false,
-            type: Sequelize.STRING,
-        },
-    },
-    {
-        sequelize: database.connection,
-        tableName: 'Companies',
-    },
-);
-
-Company.hasMany(Client, { foreignKey: 'company_id', as: 'clients' });
-Company.hasMany(User, { foreignKey: 'company_id', as: 'users' });
 
 export default Company;

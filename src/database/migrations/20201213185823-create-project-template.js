@@ -27,13 +27,9 @@ module.exports = {
                     onDelete: 'CASCADE',
                     onUpdate: 'CASCADE',
                 },
-                start_date: {
+                duration: {
                     allowNull: false,
-                    type: Sequelize.DATE,
-                },
-                end_date: {
-                    allowNull: false,
-                    type: Sequelize.DATE,
+                    type: Sequelize.INTEGER,
                 },
                 created_at: {
                     type: Sequelize.DATE,
@@ -43,7 +39,7 @@ module.exports = {
                     type: Sequelize.DATE,
                     allowNull: false,
                 },
-            }
+            },
         );
 
         return ProjectTemplateTable;

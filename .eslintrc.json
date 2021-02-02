@@ -19,6 +19,11 @@
         "camelcase": "off",
         "function-paren-newline": ["error", "multiline-arguments"],
         "no-unused-vars": ["error", { "argsIgnorePattern": "next" }],
+        "no-console": "off",
+        "global-require": "off",
+        "import/no-dynamic-require": "off",
+        "no-nested-ternary": "off",
+        "import/prefer-default-export": "off",
         "import-helpers/order-imports": [
             "warn",
             {

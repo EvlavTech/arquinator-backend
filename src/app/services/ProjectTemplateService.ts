@@ -1,7 +1,7 @@
 import ProjectTemplateRepository from '@repositories/ProjectTemplateRepository';
 import ProjectRepository from '@repositories/ProjectRepository';
 
-import ProjectTemplate, { IProjectTemplate } from '@models/templates/ProjectTemplate';
+import ProjectTemplate, { IProjectTemplate } from '@models/ProjectTemplate';
 
 import BaseService from './BaseService';
 import BaseError from '../errors/BaseError';
@@ -12,10 +12,14 @@ class ProjectTemplateService extends BaseService<ProjectTemplate, IProjectTempla
         if (!projectTemplateBefore) {
             throw new BaseError('Id not found!', 404);
         }
-        const projects = await ProjectRepository.findByFilters({
+        const projects = (await ProjectRepository.findByFilters({
             template_id: id,
-            end_date: projectTemplateBefore?.end_date,
+        })).filter((project) => {
+            const end_date = new Date(project.start_date);
+            end_date.setDate(end_date.getDate() + projectTemplateBefore.duration);
+            return end_date.getTime() === project.end_date.getTime();
         });
+
         await this.repository.update(id, bodyUpdated);
         const projectsUpdate = projects.map((project) => ProjectRepository.update(
             project.id, bodyUpdated,
