@@ -2,6 +2,10 @@ import DataTypes, { Sequelize } from 'sequelize';
 
 import GenericModel, { DB } from './GenericModel';
 
+export interface IPermission {
+    name: string;
+}
+
 class Permission extends GenericModel {
     public user_id!: number;
 
