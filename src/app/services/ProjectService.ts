@@ -60,17 +60,25 @@ class ProjectService extends BaseService<Project, IProject> {
             group: [sequelize.fn('date_trunc', 'month', sequelize.col('start_date'))],
         });
 
-        const projects_formatted = projects.map((project) => {
+        const finances = projects.map((project) => {
             const { start_date, value } = project;
             const date = new Date(start_date.toString());
             const date_formatted = getMonth(date);
             return {
-                total_amount: value,
+                total_amount: Number(value),
                 date: `${date_formatted}/${date.getUTCFullYear()}`,
             };
         });
 
-        return projects_formatted;
+        const average = this.average(finances.map((p) => p.total_amount));
+
+        return { finances, average };
+    }
+
+    private average(values: number[]) {
+        const result = values.reduce((accumalator, current) => accumalator + current);
+
+        return result / values.length;
     }
 }
 
