@@ -25,7 +25,7 @@ describe('Tests project repository', () => {
         project_created_1 = await ProjectRepository.create({
             name: 'Project Test 1',
             description: 'Description project 1',
-            owner_id: client_created_1.id,
+            client_id: client_created_1.id,
             start_date: '2020-12-17T03:00:00.000Z',
             end_date: '2020-12-25T03:00:00.000Z',
         });
@@ -33,7 +33,7 @@ describe('Tests project repository', () => {
         project_created_2 = await ProjectRepository.create({
             name: 'Project Test 2',
             description: 'Description project 2',
-            owner_id: client_created_1.id,
+            client_id: client_created_1.id,
             start_date: '2020-12-20T03:00:00.000Z',
             end_date: '2020-12-30T03:00:00.000Z',
         });

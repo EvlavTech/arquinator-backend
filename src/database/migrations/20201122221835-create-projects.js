@@ -11,7 +11,7 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.STRING,
             },
-            owner_id: {
+            client_id: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
                 references: {

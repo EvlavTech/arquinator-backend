@@ -6,7 +6,7 @@ export interface IProjectTemplate {
     id: number;
     name: string;
     description: string;
-    owner_id: number;
+    client_id: number;
     duration: number;
 }
 
@@ -17,7 +17,7 @@ class ProjectTemplate extends GenericModel {
 
     public description!: string;
 
-    public owner_id!: number;
+    public client_id!: number;
 
     public duration!: number;
 
@@ -37,7 +37,7 @@ class ProjectTemplate extends GenericModel {
                     allowNull: false,
                     type: DataTypes.STRING,
                 },
-                owner_id: {
+                client_id: {
                     type: DataTypes.INTEGER,
                     allowNull: false,
                     references: {

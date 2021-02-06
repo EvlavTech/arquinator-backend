@@ -11,7 +11,7 @@ export const ProjectCreate = yup.object().shape({
         is: (template_id: number) => !template_id,
         then: yup.string().required(),
     }),
-    owner_id: yup.number().when(['template_id'], {
+    client_id: yup.number().when(['template_id'], {
         is: (template_id: number) => !template_id,
         then: yup.number().required(),
     }),
@@ -28,7 +28,7 @@ export const ProjectCreate = yup.object().shape({
 export const ProjectUpdate = yup.object().shape({
     name: yup.string(),
     description: yup.string(),
-    owner_id: yup.number(),
+    client_id: yup.number(),
     start_date: yup.date(),
     end_date: yup.date(),
     value: yup.number(),

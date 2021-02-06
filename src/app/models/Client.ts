@@ -18,8 +18,8 @@ class Client extends GenericModel {
     public company_id!: number;
 
     static associate(models: DB) {
-        Client.hasMany(models.Project, { foreignKey: 'owner_id', as: 'projects' });
-        Client.hasMany(models.ProjectTemplate, { foreignKey: 'owner_id', as: 'projects_templates' });
+        Client.hasMany(models.Project, { foreignKey: 'client_id', as: 'projects' });
+        Client.hasMany(models.ProjectTemplate, { foreignKey: 'client_id', as: 'projects_templates' });
     }
 
     static initModel(connection: Sequelize) {

@@ -38,7 +38,7 @@ class ProjectService extends BaseService<Project, IProject> {
         const date = new Date(project.start_date);
         project.name = projectTemplate.name;
         project.description = projectTemplate.description;
-        project.owner_id = projectTemplate.owner_id;
+        project.client_id = projectTemplate.client_id;
         date.setDate(date.getDate() + projectTemplate.duration);
         project.end_date = date;
         project.template_id = projectTemplate.id;
@@ -56,7 +56,7 @@ class ProjectService extends BaseService<Project, IProject> {
                 [sequelize.fn('sum', sequelize.col('value')), 'value'],
                 [sequelize.fn('date_trunc', 'month', sequelize.col('start_date')), 'start_date'],
             ],
-            where: { owner_id: clients_company.map((client) => client.id) },
+            where: { client_id: clients_company.map((client) => client.id) },
             group: [sequelize.fn('date_trunc', 'month', sequelize.col('start_date'))],
         });
 
