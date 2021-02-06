@@ -3,13 +3,13 @@
 ### Docker - Iniciar o Postgres:
 
 ```sh
-$ sudo docker run --name arquinator -ePOSTGRES_PASSWORD=arquinator2020 -p 5432:5432 -d postgres
+$ sudo docker run --name arquinator -e POSTGRES_PASSWORD=arquinator2020 -p 5432:5432 -d postgres
 ```
 
 #### Acessa pelo [postbird](https://www.electronjs.org/apps/postbird):
 
-- username: postgres
-- password: arquinator2020
+-   username: postgres
+-   password: arquinator2020
 
 E por fim crie uma database para ser usada.
 
