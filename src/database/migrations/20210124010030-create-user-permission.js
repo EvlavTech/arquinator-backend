@@ -7,7 +7,7 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            userId: {
+            user_id: {
                 allowNull: false,
                 references: {
                     model: 'Users',
@@ -17,7 +17,7 @@ module.exports = {
                 onDelete: 'CASCADE',
                 onUpdate: 'CASCADE',
             },
-            permissionId: {
+            permission_id: {
                 allowNull: false,
                 references: {
                     model: 'Permissions',
@@ -27,11 +27,11 @@ module.exports = {
                 onDelete: 'CASCADE',
                 onUpdate: 'CASCADE',
             },
-            createdAt: {
+            created_at: {
                 allowNull: false,
                 type: Sequelize.DATE,
             },
-            updatedAt: {
+            updated_at: {
                 allowNull: false,
                 type: Sequelize.DATE,
             },

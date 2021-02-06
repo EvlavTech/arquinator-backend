@@ -2,25 +2,17 @@ import DataTypes, { Sequelize } from 'sequelize';
 
 import GenericModel, { DB } from './GenericModel';
 
-class Permission extends GenericModel {
-    public user_id!: number;
+export interface IPermission {
+    name: string;
+}
 
-    public permission!: string;
+class Permission extends GenericModel {
+    public name!: string;
 
     public static initModel(connection: Sequelize): void {
         Permission.init(
             {
-                user_id: {
-                    type: DataTypes.INTEGER,
-                    allowNull: false,
-                    references: {
-                        model: 'Users',
-                        key: 'id',
-                    },
-                    onDelete: 'CASCADE',
-                    onUpdate: 'CASCADE',
-                },
-                permission: {
+                name: {
                     allowNull: false,
                     type: DataTypes.STRING,
                 },
