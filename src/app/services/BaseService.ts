@@ -1,4 +1,4 @@
-import Sequelize from 'sequelize';
+import Sequelize, { FindOptions, WhereOptions } from 'sequelize';
 import BaseRepository from '@repositories/BaseRepository';
 
 import BaseError from '../errors/BaseError';
@@ -27,6 +27,11 @@ class BaseService<T extends Sequelize.Model<T> & K, K> {
         }
 
         return object;
+    }
+
+    async find(filters: any): Promise<K[]> {
+        const objects = await this.repository.find(filters);
+        return objects;
     }
 
     async delete(id: number): Promise<K | BaseError> {
