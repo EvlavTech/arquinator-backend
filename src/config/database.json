@@ -1,7 +1,7 @@
 {
     "development": {
         "username": "postgres",
-        "password": "mat13mig18",
+        "password": "arquinator2020",
         "database": "arquinator",
         "host": "localhost",
         "dialect": "postgres",
@@ -12,7 +12,7 @@
     },
     "test": {
         "username": "postgres",
-        "password": "mat13mig18",
+        "password": "arquinator2020",
         "database": "arquinator_test",
         "host": "localhost",
         "dialect": "postgres",
