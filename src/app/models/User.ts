@@ -1,4 +1,4 @@
-import DataTypes, { Sequelize } from 'sequelize';
+import DataTypes, { Sequelize, Model } from 'sequelize';
 import bcryptjs from 'bcryptjs';
 
 import GenericModel, { DB } from './GenericModel';
@@ -13,7 +13,7 @@ export interface IUser {
     company_id: number;
 }
 
-export interface IUserSession{
+export interface IUserSession {
     id: number;
 
     name: string;
@@ -23,7 +23,7 @@ export interface IUserSession{
     password_hash: string;
 }
 
-class User extends GenericModel {
+class User extends GenericModel implements IUser {
     public id!: number;
 
     public name!: string;
@@ -41,10 +41,18 @@ class User extends GenericModel {
     }
 
     static associate(models: DB) {
-        User.hasMany(models.Task, { foreignKey: 'owner_id', as: 'task_creator' });
-        User.hasMany(models.Task, { foreignKey: 'responsible_id', as: 'responsible_task' });
-        User.hasMany(models.TaskTemplate, { foreignKey: 'owner_id', as: 'task_template_creator' });
-        User.hasMany(models.Permission, { foreignKey: 'user_id', as: 'permission' });
+        User.hasMany(models.Task, {
+            foreignKey: 'owner_id',
+            as: 'task_creator',
+        });
+        User.hasMany(models.Task, {
+            foreignKey: 'responsible_id',
+            as: 'responsible_task',
+        });
+        User.hasMany(models.TaskTemplate, {
+            foreignKey: 'owner_id',
+            as: 'task_template_creator',
+        });
         User.belongsToMany(models.Permission, { through: 'UserPermissions' });
     }
 
@@ -80,12 +88,14 @@ class User extends GenericModel {
                 tableName: 'Users',
             },
         );
-
-        User.addHook('beforeSave', async (user:User): Promise<void> => {
-            if (user.password) {
-                user.password_hash = await bcryptjs.hash(user.password, 8);
-            }
-        });
+        User.addHook(
+            'beforeSave',
+            async (user: User): Promise<void> => {
+                if (user.password) {
+                    user.password_hash = await bcryptjs.hash(user.password, 8);
+                }
+            },
+        );
     }
 }
 

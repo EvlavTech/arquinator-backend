@@ -1,9 +1,9 @@
 import Sequelize, { FindOptions, WhereOptions } from 'sequelize';
 
 class BaseRepository<T extends Sequelize.Model<T> & K, K> {
-    public model: {new(): T} & typeof Sequelize.Model;
+    public model: { new (): T } & typeof Sequelize.Model;
 
-    constructor(model: {new(): T} & typeof Sequelize.Model) {
+    constructor(model: { new (): T } & typeof Sequelize.Model) {
         this.model = model;
     }
 
@@ -32,8 +32,13 @@ class BaseRepository<T extends Sequelize.Model<T> & K, K> {
         return object;
     }
 
-    public async update(id: number, attributes: Partial<K>): Promise<[number, any[]]> {
-        const objectUpdated = await this.model.update(attributes, { where: { id } });
+    public async update(
+        id: number,
+        attributes: Partial<K>,
+    ): Promise<[number, any[]]> {
+        const objectUpdated = await this.model.update(attributes, {
+            where: { id },
+        });
         return objectUpdated;
     }
 

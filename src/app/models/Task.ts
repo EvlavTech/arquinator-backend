@@ -2,7 +2,7 @@ import DataTypes, { Sequelize } from 'sequelize';
 
 import GenericModel, { DB } from './GenericModel';
 
-export interface ITask{
+export interface ITask {
     id: number;
     start_date: string;
     end_date: string;
@@ -40,7 +40,19 @@ class Task extends GenericModel {
     public done!: boolean;
 
     static associate(models: DB) {
-        Task.belongsTo(models.Task, { foreignKey: 'task_parent_id', as: 'task_parent' });
+        Task.belongsTo(models.Task, {
+            foreignKey: 'task_parent_id',
+            as: 'task_parent',
+        });
+        Task.belongsTo(models.Project, {
+            foreignKey: 'project_id',
+            as: 'project',
+        });
+        Task.belongsTo(models.User, { foreignKey: 'owner_id', as: 'owner' });
+        Task.belongsTo(models.User, {
+            foreignKey: 'responsible_id',
+            as: 'responsible',
+        });
     }
 
     public static initModel(connection: Sequelize): void {

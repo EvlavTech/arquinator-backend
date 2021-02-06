@@ -16,7 +16,9 @@ class BaseController<T extends Sequelize.Model<T> & K, K> {
             const object = await this.service.create(req.body);
             return res.status(201).json(object);
         } catch (error) {
-            return res.status(error.statusCode).json({ message: error.message });
+            return res
+                .status(error.statusCode || 400)
+                .json({ message: error.message });
         }
     }
 
@@ -27,7 +29,9 @@ class BaseController<T extends Sequelize.Model<T> & K, K> {
             });
             return res.status(200).json(objects);
         } catch (error) {
-            return res.status(error.statusCode).json({ message: error.message });
+            return res
+                .status(error.statusCode || 400)
+                .json({ message: error.message });
         }
     }
 
@@ -37,7 +41,9 @@ class BaseController<T extends Sequelize.Model<T> & K, K> {
             return res.status(200).json(object);
         } catch (error) {
             // TODO: Error vai informar o status code.
-            return res.status(error.statusCode).json({ message: error.message });
+            return res
+                .status(error.statusCode)
+                .json({ message: error.message });
         }
     }
 
@@ -47,18 +53,24 @@ class BaseController<T extends Sequelize.Model<T> & K, K> {
             return res.status(200).json(object);
         } catch (error) {
             // TODO: Error vai informar o status code.
-            return res.status(error.statusCode).json({ message: error.message });
+            return res
+                .status(error.statusCode)
+                .json({ message: error.message });
         }
     }
 
     async update(req: Request, res: Response): Promise<Response<K>> {
         try {
-            await this.service.update(Number(req.params.id), req.body);
-            const object = await this.service.findById(Number(req.params.id));
+            const object = await this.service.update(
+                Number(req.params.id),
+                req.body,
+            );
             return res.status(200).json(object);
         } catch (error) {
             // TODO: Error vai informar o status code.
-            return res.status(error.statusCode).json({ message: error.message });
+            return res
+                .status(error.statusCode)
+                .json({ message: error.message });
         }
     }
 }
