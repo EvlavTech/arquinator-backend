@@ -1,9 +1,14 @@
 module.exports = {
     up: async (queryInterface, Sequelize) => {
         await queryInterface.createTable('UserPermissions', {
-            userId: {
+            id: {
                 allowNull: false,
+                autoIncrement: true,
                 primaryKey: true,
+                type: Sequelize.INTEGER,
+            },
+            user_id: {
+                allowNull: false,
                 references: {
                     model: 'Users',
                     key: 'id',
@@ -12,9 +17,8 @@ module.exports = {
                 onDelete: 'CASCADE',
                 onUpdate: 'CASCADE',
             },
-            permissionId: {
+            permission_id: {
                 allowNull: false,
-                primaryKey: true,
                 references: {
                     model: 'Permissions',
                     key: 'id',
@@ -23,11 +27,11 @@ module.exports = {
                 onDelete: 'CASCADE',
                 onUpdate: 'CASCADE',
             },
-            createdAt: {
+            created_at: {
                 allowNull: false,
                 type: Sequelize.DATE,
             },
-            updatedAt: {
+            updated_at: {
                 allowNull: false,
                 type: Sequelize.DATE,
             },

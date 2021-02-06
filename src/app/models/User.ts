@@ -1,4 +1,4 @@
-import DataTypes, { Sequelize } from 'sequelize';
+import DataTypes, { Sequelize, Model } from 'sequelize';
 import bcryptjs from 'bcryptjs';
 
 import GenericModel, { DB } from './GenericModel';
@@ -23,7 +23,7 @@ export interface IUserSession {
     password_hash: string;
 }
 
-class User extends GenericModel {
+class User extends GenericModel implements IUser {
     public id!: number;
 
     public name!: string;
@@ -52,10 +52,6 @@ class User extends GenericModel {
         User.hasMany(models.TaskTemplate, {
             foreignKey: 'owner_id',
             as: 'task_template_creator',
-        });
-        User.hasMany(models.Permission, {
-            foreignKey: 'user_id',
-            as: 'permission',
         });
         User.belongsToMany(models.Permission, { through: 'UserPermissions' });
     }
