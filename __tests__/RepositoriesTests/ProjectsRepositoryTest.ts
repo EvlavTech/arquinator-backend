@@ -1,6 +1,8 @@
 /* eslint-disable no-undef */
 /* eslint-disable consistent-return */
 import '../../src/app';
+import sequelize from 'sequelize';
+
 import CompanyRepository from '../../src/app/repository/CompanyRepository';
 import ClientRepository from '../../src/app/repository/ClientRepository';
 import ProjectRepository from '../../src/app/repository/ProjectRepository';
@@ -28,6 +30,7 @@ describe('Tests project repository', () => {
             client_id: client_created_1.id,
             start_date: '2020-12-17T03:00:00.000Z',
             end_date: '2020-12-25T03:00:00.000Z',
+            value: 2500,
         });
 
         project_created_2 = await ProjectRepository.create({
@@ -36,17 +39,20 @@ describe('Tests project repository', () => {
             client_id: client_created_1.id,
             start_date: '2020-12-20T03:00:00.000Z',
             end_date: '2020-12-30T03:00:00.000Z',
+            value: 3500,
         });
 
         expect(project_created_1.name).toBe('Project Test 1');
         expect(project_created_1.description).toBe('Description project 1');
         expect(project_created_1.start_date).toStrictEqual(new Date('2020-12-17T03:00:00.000Z'));
         expect(project_created_1.end_date).toStrictEqual(new Date('2020-12-25T03:00:00.000Z'));
+        expect(project_created_1.value).toStrictEqual(2500);
 
         expect(project_created_2.name).toBe('Project Test 2');
         expect(project_created_2.description).toBe('Description project 2');
         expect(project_created_2.start_date).toStrictEqual(new Date('2020-12-20T03:00:00.000Z'));
         expect(project_created_2.end_date).toStrictEqual(new Date('2020-12-30T03:00:00.000Z'));
+        expect(project_created_2.value).toStrictEqual(3500);
     });
 
     it('Test get all projects', async () => {
@@ -154,6 +160,21 @@ describe('Tests project repository', () => {
         const projects = await ProjectRepository.update(150, { name: 'Company 3 Test Update' });
 
         expect(projects[0]).toEqual(0);
+    });
+
+    it('Test finances of projects', async () => {
+        const projects = await ProjectRepository.find({
+            attributes: [
+                [sequelize.fn('sum', sequelize.col('value')), 'value'],
+                [sequelize.fn('date_trunc', 'month', sequelize.col('start_date')), 'start_date'],
+            ],
+            where: { client_id: 1 },
+            group: [sequelize.fn('date_trunc', 'month', sequelize.col('start_date'))],
+        });
+
+        expect(projects).toMatchObject([
+            { value: '6000', start_date: new Date('2020-12-01T00:00:00.000Z') },
+        ]);
     });
 
     it('Test delete projects', async () => {

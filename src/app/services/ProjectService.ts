@@ -2,7 +2,6 @@ import ProjectRepository from '@repositories/ProjectRepository';
 import ProjectTemplateRepository from '@repositories/ProjectTemplateRepository';
 import ClientRepository from '@repositories/ClientRepository';
 import sequelize from 'sequelize';
-import { start } from 'repl';
 
 import Project, { IProject } from '@models/Project';
 import { IProjectTemplate } from '@models/ProjectTemplate';
