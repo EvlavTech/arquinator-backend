@@ -1,11 +1,15 @@
 import ProjectRepository from '@repositories/ProjectRepository';
 import ProjectTemplateRepository from '@repositories/ProjectTemplateRepository';
+import ClientRepository from '@repositories/ClientRepository';
+import sequelize from 'sequelize';
+import { start } from 'repl';
 
 import Project, { IProject } from '@models/Project';
 import { IProjectTemplate } from '@models/ProjectTemplate';
 
 import BaseService from './BaseService';
 import BaseError from '../errors/BaseError';
+import { getMonth } from '../utils/format_date';
 
 class ProjectService extends BaseService<Project, IProject> {
     async create(body: any) {
@@ -39,6 +43,34 @@ class ProjectService extends BaseService<Project, IProject> {
         project.end_date = date;
         project.template_id = projectTemplate.id;
         return project;
+    }
+
+    public async getProjectsByCompanyId(company_id: number) {
+        const clients_company = await ClientRepository.find({
+            attributes: ['id'],
+            where: { company_id },
+        });
+
+        const projects = await ProjectRepository.find({
+            attributes: [
+                [sequelize.fn('sum', sequelize.col('value')), 'value'],
+                [sequelize.fn('date_trunc', 'month', sequelize.col('start_date')), 'start_date'],
+            ],
+            where: { owner_id: clients_company.map((client) => client.id) },
+            group: [sequelize.fn('date_trunc', 'month', sequelize.col('start_date'))],
+        });
+
+        const projects_formatted = projects.map((project) => {
+            const { start_date, value } = project;
+            const date = new Date(start_date.toString());
+            const date_formatted = getMonth(date);
+            return {
+                total_amount: value,
+                date: `${date_formatted}/${date.getUTCFullYear()}`,
+            };
+        });
+
+        return projects_formatted;
     }
 }
 

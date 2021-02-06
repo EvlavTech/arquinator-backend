@@ -20,6 +20,10 @@ export default function routes(app: Express) {
         '/projects',
         (req, res) => ProjectController.index(req, res),
     );
+    app.get(
+        '/projects_by_company_id/:company_id',
+        (req, res) => ProjectController.getProjectsByCompanyId(req, res),
+    );
     app.delete(
         '/projects/:id',
         validateParamsDTO(ProjectupdateAndDelete),
