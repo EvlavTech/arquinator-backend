@@ -26,6 +26,7 @@ describe('Tests project repository', () => {
             name: 'Project Template Test 1',
             description: 'Description project template 1',
             client_id: client_created_1.id,
+            company_id: company_created_1.id,
             duration: 10,
         });
 
@@ -33,6 +34,7 @@ describe('Tests project repository', () => {
             name: 'Project Template Test 2',
             description: 'Description project template 2',
             client_id: client_created_1.id,
+            company_id: company_created_1.id,
             duration: 25,
         });
 

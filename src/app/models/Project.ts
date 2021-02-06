@@ -11,6 +11,7 @@ export interface IProject {
     end_date: Date;
     value: number;
     template_id: number;
+    company_id: number;
 }
 
 class Project extends GenericModel {
@@ -29,6 +30,8 @@ class Project extends GenericModel {
     public value!: number;
 
     public template_id!: number;
+
+    public company_id!: number;
 
     static associate(models: DB) {
         Project.hasMany(models.Task, { foreignKey: 'project_id', as: 'tasks' });
@@ -50,6 +53,16 @@ class Project extends GenericModel {
                     allowNull: false,
                     references: {
                         model: 'Clients',
+                        key: 'id',
+                    },
+                    onDelete: 'CASCADE',
+                    onUpdate: 'CASCADE',
+                },
+                company_id: {
+                    type: DataTypes.INTEGER,
+                    allowNull: false,
+                    references: {
+                        model: 'Companies',
                         key: 'id',
                     },
                     onDelete: 'CASCADE',

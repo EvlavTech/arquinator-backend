@@ -5,6 +5,7 @@ export const ProjectTemplateCreate = yup.object().shape({
     name: yup.string().required(),
     description: yup.string().required(),
     client_id: yup.number().required(),
+    company_id: yup.number().required(),
     duration: yup.number().required(),
 });
 
@@ -12,6 +13,7 @@ export const ProjectTemplateUpdate = yup.object().shape({
     name: yup.string(),
     description: yup.string(),
     client_id: yup.number(),
+    company_id: yup.number(),
     duration: yup.number(),
 });
 

@@ -45,17 +45,12 @@ class ProjectService extends BaseService<Project, IProject> {
     }
 
     public async getProjectsByCompanyId(company_id: number) {
-        const clients_company = await ClientRepository.find({
-            attributes: ['id'],
-            where: { company_id },
-        });
-
         const projects = await ProjectRepository.find({
             attributes: [
                 [sequelize.fn('sum', sequelize.col('value')), 'value'],
                 [sequelize.fn('date_trunc', 'month', sequelize.col('start_date')), 'start_date'],
             ],
-            where: { client_id: clients_company.map((client) => client.id) },
+            where: { company_id },
             group: [sequelize.fn('date_trunc', 'month', sequelize.col('start_date'))],
         });
 
