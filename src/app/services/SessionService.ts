@@ -4,7 +4,7 @@ import UserSessionRepository from '@repositories/UserSessionRepository';
 
 import BaseError from '../errors/BaseError';
 
-export interface ISession{
+export interface ISession {
     email: string;
     token: string;
 }
@@ -22,7 +22,10 @@ class SessionService {
             throw new BaseError(`Object with email: ${email} not found`, 404);
         }
 
-        const passwordMatched = await bcryptjs.compare(password, user.password_hash);
+        const passwordMatched = await bcryptjs.compare(
+            password,
+            user.password_hash,
+        );
 
         if (!passwordMatched) {
             throw new BaseError('Invalid Password', 401);
