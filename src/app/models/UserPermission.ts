@@ -1,13 +1,14 @@
 import DataTypes, { Sequelize } from 'sequelize';
 import GenericModel from './GenericModel';
 
-
 export interface IUserPermission {
+    id: number;
     userId: number;
     permissionId: number;
 }
 
 class UserPermission extends GenericModel {
+    public id!: number;
     public userId!: number;
     public permissionId!: number;
 
@@ -33,7 +34,7 @@ class UserPermission extends GenericModel {
                     type: DataTypes.INTEGER,
                     onDelete: 'CASCADE',
                     onUpdate: 'CASCADE',
-                }
+                },
             },
             {
                 sequelize: connection,

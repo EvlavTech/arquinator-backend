@@ -8,8 +8,11 @@ import {
 import { CompanyUpdateAndDelete } from '@dto/Company/CompanyDTO';
 
 import ClientController from '@controllers/ClientController';
+import ensureAuth from '@middlewares/ensureAuth';
 
 export default function routes(app: Express) {
+    app.use('/clients', ensureAuth('CLIENTE'));
+
     app.post('/clients', validateBodyDTO(ClientCreate), (req, res) =>
         ClientController.store(req, res),
     );

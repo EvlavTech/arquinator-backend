@@ -1,5 +1,6 @@
 import bcryptjs from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
+import auth from '@config/auth';
 import UserSessionRepository from '@repositories/UserSessionRepository';
 
 import BaseError from '../errors/BaseError';
@@ -31,15 +32,9 @@ class SessionService {
             throw new BaseError('Invalid Password', 401);
         }
 
-        const md5SignHash = process.env.TOKEN_HASH;
-
-        if (!md5SignHash) {
-            throw new BaseError('No hash on enviroment', 404);
-        }
-
-        const token = sign({}, md5SignHash, {
+        const token = sign({}, auth.jwt.secret, {
             subject: String(user.id),
-            expiresIn: '1d',
+            expiresIn: auth.jwt.expiresIn,
         });
 
         return { email: user.email, token };
