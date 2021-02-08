@@ -11,11 +11,21 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.STRING,
             },
-            owner_id: {
+            client_id: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
                 references: {
                     model: 'Clients',
+                    key: 'id',
+                },
+                onDelete: 'CASCADE',
+                onUpdate: 'CASCADE',
+            },
+            company_id: {
+                type: Sequelize.INTEGER,
+                allowNull: false,
+                references: {
+                    model: 'Companies',
                     key: 'id',
                 },
                 onDelete: 'CASCADE',

@@ -39,7 +39,8 @@ describe('Tests task template repository', () => {
 
         project_template_1 = await ProjectTemplateRepository.create({
             name: 'Project_Template_1',
-            owner_id: client_created_1.id,
+            client_id: client_created_1.id,
+            company_id: company_created_1.id,
             description: 'Confia no pai',
             duration: 10,
         });

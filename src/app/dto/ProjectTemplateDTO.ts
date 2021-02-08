@@ -4,14 +4,16 @@ export const ProjectTemplateCreate = yup.object().shape({
     project_template_id: yup.number(),
     name: yup.string().required(),
     description: yup.string().required(),
-    owner_id: yup.number().required(),
+    client_id: yup.number().required(),
+    company_id: yup.number().required(),
     duration: yup.number().required(),
 });
 
 export const ProjectTemplateUpdate = yup.object().shape({
     name: yup.string(),
     description: yup.string(),
-    owner_id: yup.number(),
+    client_id: yup.number(),
+    company_id: yup.number(),
     duration: yup.number(),
 });
 

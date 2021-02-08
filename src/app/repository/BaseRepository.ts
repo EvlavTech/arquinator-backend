@@ -1,4 +1,4 @@
-import Sequelize from 'sequelize';
+import Sequelize, { FindOptions, WhereOptions } from 'sequelize';
 
 class BaseRepository<T extends Sequelize.Model<T> & K, K> {
     public model: { new (): T } & typeof Sequelize.Model;
@@ -17,8 +17,13 @@ class BaseRepository<T extends Sequelize.Model<T> & K, K> {
         return objects;
     }
 
-    async findByFilters(where: any = {}): Promise<K[]> {
+    async findByFilters(where: WhereOptions<T> = {}): Promise<K[]> {
         const objects = this.model.findAll<T>({ where });
+        return objects;
+    }
+
+    async find(filters: FindOptions<T> = {}): Promise<K[]> {
+        const objects = this.model.findAll<T>(filters);
         return objects;
     }
 

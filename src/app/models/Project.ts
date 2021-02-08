@@ -6,11 +6,12 @@ export interface IProject {
     id: number;
     name: string;
     description: string;
-    owner_id: number;
+    client_id: number;
     start_date: Date;
     end_date: Date;
     value: number;
     template_id: number;
+    company_id: number;
 }
 
 class Project extends GenericModel {
@@ -20,7 +21,7 @@ class Project extends GenericModel {
 
     public description!: string;
 
-    public owner_id!: number;
+    public client_id!: number;
 
     public start_date!: Date;
 
@@ -29,6 +30,8 @@ class Project extends GenericModel {
     public value!: number;
 
     public template_id!: number;
+
+    public company_id!: number;
 
     static associate(models: DB) {
         Project.hasMany(models.Task, { foreignKey: 'project_id', as: 'tasks' });
@@ -45,11 +48,21 @@ class Project extends GenericModel {
                     allowNull: false,
                     type: DataTypes.STRING,
                 },
-                owner_id: {
+                client_id: {
                     type: DataTypes.INTEGER,
                     allowNull: false,
                     references: {
                         model: 'Clients',
+                        key: 'id',
+                    },
+                    onDelete: 'CASCADE',
+                    onUpdate: 'CASCADE',
+                },
+                company_id: {
+                    type: DataTypes.INTEGER,
+                    allowNull: false,
+                    references: {
+                        model: 'Companies',
                         key: 'id',
                     },
                     onDelete: 'CASCADE',

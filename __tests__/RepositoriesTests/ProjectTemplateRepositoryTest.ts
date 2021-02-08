@@ -25,26 +25,28 @@ describe('Tests project repository', () => {
         project_template_created_1 = await ProjectTemplateRepository.create({
             name: 'Project Template Test 1',
             description: 'Description project template 1',
-            owner_id: client_created_1.id,
+            client_id: client_created_1.id,
+            company_id: company_created_1.id,
             duration: 10,
         });
 
         project_template_created_2 = await ProjectTemplateRepository.create({
             name: 'Project Template Test 2',
             description: 'Description project template 2',
-            owner_id: client_created_1.id,
+            client_id: client_created_1.id,
+            company_id: company_created_1.id,
             duration: 25,
         });
 
         expect(project_template_created_1.name).toBe('Project Template Test 1');
         expect(project_template_created_1.description).toBe('Description project template 1');
         expect(project_template_created_1.duration).toBe(10);
-        expect(project_template_created_1.owner_id).toBe(client_created_1.id);
+        expect(project_template_created_1.client_id).toBe(client_created_1.id);
 
         expect(project_template_created_2.name).toBe('Project Template Test 2');
         expect(project_template_created_2.description).toBe('Description project template 2');
         expect(project_template_created_2.duration).toBe(25);
-        expect(project_template_created_2.owner_id).toBe(client_created_1.id);
+        expect(project_template_created_2.client_id).toBe(client_created_1.id);
     });
 
     it('Test get all projects templates', async () => {

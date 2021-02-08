@@ -39,7 +39,8 @@ describe('Test task repository', () => {
 
         project_1 = await ProjectRepository.create({
             name: 'Project_Template_1',
-            owner_id: client_created_1.id,
+            client_id: client_created_1.id,
+            company_id: company_created_1.id,
             description: 'Confia no pai',
             start_date: new Date(),
             end_date: new Date(),

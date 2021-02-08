@@ -6,8 +6,9 @@ export interface IProjectTemplate {
     id: number;
     name: string;
     description: string;
-    owner_id: number;
+    client_id: number;
     duration: number;
+    company_id: number;
 }
 
 class ProjectTemplate extends GenericModel {
@@ -17,9 +18,11 @@ class ProjectTemplate extends GenericModel {
 
     public description!: string;
 
-    public owner_id!: number;
+    public client_id!: number;
 
     public duration!: number;
+
+    public company_id!: number;
 
     static associate(models: DB) {
         ProjectTemplate.hasMany(models.TaskTemplate, { foreignKey: 'project_template_id', as: 'tasks' });
@@ -37,11 +40,21 @@ class ProjectTemplate extends GenericModel {
                     allowNull: false,
                     type: DataTypes.STRING,
                 },
-                owner_id: {
+                client_id: {
                     type: DataTypes.INTEGER,
                     allowNull: false,
                     references: {
                         model: 'Clients',
+                        key: 'id',
+                    },
+                    onDelete: 'CASCADE',
+                    onUpdate: 'CASCADE',
+                },
+                company_id: {
+                    type: DataTypes.INTEGER,
+                    allowNull: false,
+                    references: {
+                        model: 'Companies',
                         key: 'id',
                     },
                     onDelete: 'CASCADE',
