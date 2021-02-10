@@ -1,6 +1,10 @@
+import 'dotenv/config';
+
+const secret = process.env.TOKEN_SECRET ? process.env.TOKEN_SECRET : "";
+
 export default {
     jwt: {
-        secret: 'c34f4eb6f949afdb26cb5239c80bf688',
+        secret,
         expiresIn: '1d',
     },
 };
