@@ -4,7 +4,6 @@ import PermissionService from '../services/PermissionService';
 import auth from '@config/auth';
 import BaseError from '../errors/BaseError';
 import UserPermissionService from '../services/UserPermissionService';
-import { error } from 'console';
 
 interface TokenPayload {
     iat: number;
@@ -17,7 +16,7 @@ export default function ensureAuth(permissionName: String) {
         const authHeader = request.headers.authorization;
 
         if (!authHeader) {
-            response.status(401).json({ message: 'unauthorized' });
+            response.status(401).json({ message: 'Unauthorized' });
             return;
         }
 
@@ -25,18 +24,18 @@ export default function ensureAuth(permissionName: String) {
 
         try {
             const decoded = verify(token, auth.jwt.secret) as TokenPayload;
-            const permissionNameId = await PermissionService.repository.findByFilters(
+            const [{ id }] = await PermissionService.repository.findByFilters(
                 { name: permissionName },
             );
             const checkUserPermission = await UserPermissionService.repository.findByFilters(
                 {
                     user_id: Number(decoded.sub),
-                    permission_id: permissionNameId[0].id,
+                    permission_id: id,
                 },
             );
 
             if (!checkUserPermission[0]) {
-                throw error;
+                throw new BaseError('Você não tem permissão de acesso para essa tela.', 401);
             }
 
             request.user = {
@@ -45,7 +44,7 @@ export default function ensureAuth(permissionName: String) {
 
             return next();
         } catch {
-            response.status(401).json({ message: 'unauthorized' });
+            response.status(401).json({ message: 'Unauthorized' });
         }
     };
 }
