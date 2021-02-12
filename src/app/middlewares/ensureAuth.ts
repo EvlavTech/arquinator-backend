@@ -8,10 +8,10 @@ import UserPermissionService from '../services/UserPermissionService';
 interface TokenPayload {
     iat: number;
     exp: number;
-    sub: string;
+    sub: number;
 }
 
-export default function ensureAuth(permissionName: String) {
+export default function ensureAuth(permissionName: string) {
     return async (request: Request, response: Response, next: NextFunction) => {
         const authHeader = request.headers.authorization;
 
@@ -29,8 +29,8 @@ export default function ensureAuth(permissionName: String) {
             );
             const checkUserPermission = await UserPermissionService.repository.findByFilters(
                 {
-                    user_id: Number(decoded.sub),
-                    permission_id: id,
+                    userId: Number(decoded.sub),
+                    permissionId: id,
                 },
             );
 

@@ -11,6 +11,8 @@ export interface IUser {
     email: string;
 
     company_id: number;
+
+    avatar?: string;
 }
 
 export interface IUserSession {
@@ -35,6 +37,8 @@ class User extends GenericModel implements IUser {
     public password_hash!: string;
 
     public company_id!: number;
+
+    public avatar!: string;
 
     checkPassword(password: string) {
         return bcryptjs.compare(password, this.password_hash);
@@ -70,6 +74,10 @@ class User extends GenericModel implements IUser {
                 },
                 password: DataTypes.VIRTUAL,
                 password_hash: {
+                    type: DataTypes.STRING,
+                },
+                avatar: {
+                    allowNull: true,
                     type: DataTypes.STRING,
                 },
                 company_id: {
