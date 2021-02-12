@@ -13,6 +13,8 @@ export interface IUser {
     company_id: number;
 
     avatar?: string;
+
+    avatar_url?: string;
 }
 
 export interface IUserSession {
@@ -39,6 +41,8 @@ class User extends GenericModel implements IUser {
     public company_id!: number;
 
     public avatar!: string;
+
+    public avatar_url?: string;
 
     checkPassword(password: string) {
         return bcryptjs.compare(password, this.password_hash);
@@ -79,6 +83,12 @@ class User extends GenericModel implements IUser {
                 avatar: {
                     allowNull: true,
                     type: DataTypes.STRING,
+                },
+                avatar_url: {
+                    type: DataTypes.VIRTUAL,
+                    get() {
+                        return `${process.env.APP_URL}/files/${this.avatar}`
+                    }
                 },
                 company_id: {
                     type: DataTypes.INTEGER,
