@@ -87,7 +87,7 @@ class User extends GenericModel implements IUser {
                 avatar_url: {
                     type: DataTypes.VIRTUAL,
                     get() {
-                        return `${process.env.APP_URL}/files/${this.avatar}`
+                        return `http://${process.env.APP_URL}/files/${this.avatar}`
                     }
                 },
                 company_id: {

@@ -24,7 +24,9 @@ class BaseController<T extends Sequelize.Model<T> & K, K> {
 
     async index(req: Request, res: Response): Promise<Response<K[]>> {
         try {
-            const objects = await this.service.findAll();
+            const objects = await this.service.find({
+                where: req.query,
+            });
             return res.status(200).json(objects);
         } catch (error) {
             return res
