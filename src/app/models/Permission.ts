@@ -3,10 +3,13 @@ import DataTypes, { Sequelize } from 'sequelize';
 import GenericModel, { DB } from './GenericModel';
 
 export interface IPermission {
+    id: number;
     name: string;
 }
 
 class Permission extends GenericModel {
+    public id!: number;
+
     public name!: string;
 
     public static initModel(connection: Sequelize): void {

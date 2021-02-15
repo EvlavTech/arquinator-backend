@@ -1,10 +1,11 @@
 import bcryptjs from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
+import auth from '@config/auth';
 import UserSessionRepository from '@repositories/UserSessionRepository';
 
 import BaseError from '../errors/BaseError';
 
-export interface ISession{
+export interface ISession {
     email: string;
     token: string;
 }
@@ -22,21 +23,18 @@ class SessionService {
             throw new BaseError(`Object with email: ${email} not found`, 404);
         }
 
-        const passwordMatched = await bcryptjs.compare(password, user.password_hash);
+        const passwordMatched = await bcryptjs.compare(
+            password,
+            user.password_hash,
+        );
 
         if (!passwordMatched) {
             throw new BaseError('Invalid Password', 401);
         }
 
-        const md5SignHash = process.env.TOKEN_HASH;
-
-        if (!md5SignHash) {
-            throw new BaseError('No hash on enviroment', 404);
-        }
-
-        const token = sign({}, md5SignHash, {
+        const token = sign({}, auth.jwt.secret, {
             subject: String(user.id),
-            expiresIn: '1d',
+            expiresIn: auth.jwt.expiresIn,
         });
 
         return { email: user.email, token };
