@@ -39,7 +39,7 @@ module.exports = (plop) => {
             },
             {
                 type: 'add',
-                path: '../src/routes/{{pascalCase (getName name)}}.ts',
+                path: '../src/routes/{{camelCase (getName name)}}.ts',
                 templateFile: 'templates/Routes.ts.hbs',
             },
         ],
