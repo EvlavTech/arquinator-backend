@@ -3,6 +3,7 @@ import express, { Express } from 'express';
 import cors from 'cors';
 
 import routes from './routes/_index';
+import uploadConfig from "./config/upload";
 import './database';
 
 class App {
@@ -19,6 +20,7 @@ class App {
         this.server.use(cors());
         this.server.use(express.json());
         this.server.use(cors());
+        this.server.use('/files', express.static(uploadConfig.directory));
     }
 
     routes() {
